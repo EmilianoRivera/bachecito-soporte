@@ -5,6 +5,7 @@ function navbar() {
   return (
     <div>
       <Link href="/Cuenta">Cuenta</Link>
+      <Link href="/">Inicio</Link>
     </div>
   )
 }

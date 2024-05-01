@@ -1,0 +1,150 @@
+
+@import url('https://rsms.me/inter/inter-ui.css');
+
+.page {
+  font-family: 'Inter UI', sans-serif;
+  background: #e9232300;
+  display: flex;
+  top: 13vh;
+  flex-direction: column;
+  height: calc(80% - 40px);
+  position: absolute;
+  place-content: center;
+  width: calc(100% - 40px);
+  z-index: 1000;
+}
+
+@media (max-width: 800px) {
+  .page {
+    height: auto;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+  }
+}
+.container {
+  display: flex;
+  height: 50vh;
+  margin: 0 auto;
+  width: 45vw;
+}
+@media (max-width: 800px) {
+  .container {
+    flex-direction: column;
+    height: 60vh;
+    width: 60vw;
+  }
+}
+.left {
+  background: #FF9F49;
+  height: calc(100% - 40px);
+  top: 20px;
+  position: relative;
+  width: 50%;
+  border-top-left-radius: 2rem;
+  border-bottom-left-radius: 2rem;
+}
+@media (max-width: 800px) {
+  .left {
+    height: 50%;
+    left: 20px;
+    width: calc(100% - 40px);
+    max-height: 270px;
+  }
+}
+.login {
+  font-size: 50px;
+  font-weight: 900;
+  margin: 50px 40px 40px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+.eula {
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 40px;
+  margin-top: -18px;
+}
+.emoji{
+    font-size: 35px;
+    right: 50px;
+}
+.right {
+  background: #ffffff;
+  border: 2px solid #FF9F49;
+  position: relative;
+  width: 50%;
+  border-radius: 1rem;
+}
+@media (max-width: 800px) {
+  .right {
+    flex-shrink: 0;
+    height: 100%;
+    width: 100%;
+    max-height: 350px;
+  }
+
+  .left{
+    border-bottom-left-radius: 0rem;
+    border-top-right-radius: 2rem;
+  }
+}
+svg {
+  position: absolute;
+  width: 320px;
+}
+path {
+  fill: none;
+  stroke: url(#linearGradient);;
+  stroke-width: 4;
+  stroke-dasharray: 240 1386;
+}
+.centered {
+  margin: 40px;
+  position: absolute;
+}
+label {
+  color:  #949494;
+  display: block;
+  font-size: 14px;
+  height: 16px;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+input {
+  background: transparent;
+  border: 0;
+  color: #6F6F6F;
+  font-size: 17px;
+  height: 30px;
+  line-height: 30px;
+  border-bottom: 1px solid rgba(218, 218, 218, 0.212);
+  outline: none !important;
+  width: 100%;
+}
+input::-moz-focus-inner { 
+  border: 0; 
+}
+
+#iniciarSesion-btn button{
+  line-height: 30px;
+  outline: none !important;
+}
+#iniciarSesion-btn {
+  color: #949494;
+  background-color: #94949400;
+  font-size: 20px;
+  margin-top: 40px;
+  transition: color 300ms;
+  height: 30px;
+  width: 100%;
+  margin-left: 7px;
+  border: none;
+}
+#iniciarSesion-btn:focus {
+  color: #FFC537;
+}
+#iniciarSesion-btn:active {
+  color: #FF4D35;
+}
