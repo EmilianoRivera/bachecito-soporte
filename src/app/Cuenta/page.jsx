@@ -9,7 +9,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { updateDoc,collection, query, where, getDocs, addDoc} from "firebase/firestore";
+import { updateDoc,collection, query, where, getDocs} from "firebase/firestore";
 import './style.css'
 
 function Administrador() {
@@ -107,14 +107,14 @@ function Administrador() {
           let isAdmin = false;
           querySnapshot.forEach((doc) => {
             const userData = doc.data();
-            if (userData.rol === "admin") {
+            if (userData.rol === "dev") {
               isAdmin = true;
             }
           });
   
           if (isAdmin) {
             alert("Inicio de sesión exitoso");
-            push("/Cuenta/Administrador/Dashboard");
+            push("/Cuenta/Desarrolladores");
           } else {
             signOut(auth);
             alert("No tienes permiso para iniciar sesión como administrador");
