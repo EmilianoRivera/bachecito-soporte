@@ -10,7 +10,7 @@ export const useAuthUser = () => {
   //hooks del router y del context
   const { push } = useRouter();
   const pathname = usePathname();
-  const { setisLogged, setIsAdmin, setIsDev } = useContext(AuthContext); 
+  const { setisLogged, setisSuperAdmin, setIsDev } = useContext(AuthContext); 
   
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export const useAuthUser = () => {
   
   
         if (!userLogged) {
-          if (pathname === "/Cuenta/Administrador") {
+          if (pathname === "/Cuenta") {
             push(pathname)
           } else {
 
@@ -31,7 +31,7 @@ export const useAuthUser = () => {
           }
           setisLogged(false);
           setIsDev(false)
-          setIsAdmin(false);
+          setisSuperAdmin(false);
         } else {
           setisLogged(true);
           const usuariosRef = collection(db, "usuarios");
@@ -41,10 +41,11 @@ export const useAuthUser = () => {
           if (!querySnapshot.empty) {
             const docSnapshot = querySnapshot.docs[0];
             const userData = docSnapshot.data();
-            let admin, dev;
-            if(userData.rol === "admin"){
-              admin = userData.rol
-              setIsAdmin(admin);
+            let superAdmin, dev;
+            console.log(superAdmin)
+            if(userData.rol === "superAdmin"){
+              superAdmin = userData.rol
+              setIsAdmin(superAdmin);
             } else {
              dev = userData.rol === "dev"
              console.log(dev)
@@ -52,11 +53,11 @@ export const useAuthUser = () => {
             }
             
   
-            if (pathname === "/Cuenta/Administrador" && admin) {
-              push("/Cuenta/Administrador/Dashboard"); 
+            if (pathname === "/Cuenta" && superAdmin) {
+              push("/Cuenta/SuperAdmin"); 
             } else if (pathname === "/Cuenta" && dev) {
               push("/Cuenta/Desarrolladores")
-            }else if (pathname === "/Cuenta/Administrador") {
+            }else if (pathname === "/Cuenta") {
               push("/");
             }
           } else {

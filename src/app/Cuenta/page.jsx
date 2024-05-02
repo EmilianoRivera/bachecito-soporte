@@ -103,20 +103,26 @@ function Administrador() {
             alert("Inicio de sesión cancelado");
           }
         } else {
-          let isAdmin = false;
+          let isDev = false;
+          let isSuperAdmin = false
           querySnapshot.forEach((doc) => {
             const userData = doc.data();
             if (userData.rol === "dev") {
-              isAdmin = true;
+              isDev = true;
+            } else if (userData.rol === "superAdmin") {
+              isSuperAdmin = true
             }
           });
   
-          if (isAdmin) {
+          if (isDev) {
             alert("Inicio de sesión exitoso");
             push("/Cuenta/Desarrolladores");
+          } else if(isSuperAdmin) {
+            alert("Inicio de sesión exitoso");
+            push("/Cuenta/SuperAdmin");
           } else {
             signOut(auth);
-            alert("No tienes permiso para iniciar sesión como administrador");
+            alert("No tienes permiso para iniciar sesión");
           }
         }
       }

@@ -5,10 +5,10 @@ const Context = createContext({});
 
 export function ContextAuthProvider({ children }) {
   const [isLogged, setisLogged] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false); 
+  const [isSuperAdmin, setisSuperAdmin] = useState(false); 
   const [isDev, setIsDev] = useState(false); 
   return (
-    <Context.Provider value={{ isLogged, setisLogged, isAdmin, setIsAdmin, isDev, setIsDev }}>
+    <Context.Provider value={{ isLogged, setisLogged, isSuperAdmin, setisSuperAdmin, isDev, setIsDev }}>
       {children}
     </Context.Provider>
   );
