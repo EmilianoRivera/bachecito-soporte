@@ -100,6 +100,7 @@ export async function POST(req, { params }) {
 
     const docRef = await addDoc(collection(db, "tickets"), {
       folio,
+      uid,
       priori,
       errorSeleccionado,
       sistemaOperativo,
