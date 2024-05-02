@@ -9,10 +9,7 @@ import {
   query,
   where,
   getDocs,
-  getDoc,
-  doc,
-  setDoc
- 
+  getDoc
 } from "firebase/firestore";
 
 function Tickets() {
@@ -39,7 +36,7 @@ useEffect(() => {
         const uid = user.uid;
         fetchData(uid);
       } else {
-        router.push("/login");
+        router.push("/Cuenta");
       }
     });
     return () => unsubscribe();
@@ -119,66 +116,67 @@ useEffect(() => {
           // Obtener los datos actuales del documento del usuario
           const userData = userDocSnap.data();
           const foliosGuardadosAnteriores = userData.foliosGuardados || [];
-
-          // Verificar si el folio ya ha sido guardado previamente
-          if (foliosGuardadosAnteriores.includes(folio)) {
-            console.log("El folio ya ha sido guardado anteriormente.");
-            return; // Salir de la función si el folio ya está guardado
-          }
-
-          // Agregar el nuevo folio al array de folios guardados
-          const nuevosFoliosGuardados = [
-            ...foliosGuardadosAnteriores,
-            folio,
-          ];
-
-          // Actualizar el documento del usuario con el nuevo array de folios
-          await updateDoc(userDocRef, {
-            foliosGuardados: nuevosFoliosGuardados,
-          });
-
-          const ticketQuery = query(
-            collection(db, "tickets"),
-            where("folio", "==", ticketsito.folio)
-          );
           
-          const ticketQuerySnapshot = await getDocs(ticketQuery);
-          const estadito = "Asignado";
-          if (!ticketQuerySnapshot.empty) {
-            const ticketDocRef = ticketQuerySnapshot.docs[0].ref;
-          
-            // Crear el objeto con los campos a actualizar
-            const camposActualizados = {
-              usuarioAsignado: userData.uid,
-              fechaAsignado: new Date(),
-              estado: estadito
-            };
-          
-            // Actualizar solo los campos especificados en el documento del ticket
-            await updateDoc(ticketDocRef, camposActualizados);
-          
-            console.log("Usuario asignado y fecha de asignación actualizados en el documento del ticket.");
-            const rows = document.querySelectorAll('.ticket-body');
-                    rows.forEach((row) => {
-                        if (row.querySelector('.folio').textContent === folio) {
-                            row.remove();
-                        }
-                    });
+          // Verificar si el usuario tiene el mismo tipo de área que el ticket
+          if ((userData.tipo === "Frontend" && ticketsito.area === "Frontend") ||
+              (userData.tipo === "Backend" && ticketsito.area === "Backend")) {
+            
+            // Verificar si el folio ya ha sido guardado previamente
+            if (foliosGuardadosAnteriores.includes(folio)) {
+              console.log("El folio ya ha sido guardado anteriormente.");
+              return; // Salir de la función si el folio ya está guardado
+            }
+
+            // Agregar el nuevo folio al array de folios guardados
+            const nuevosFoliosGuardados = [
+              ...foliosGuardadosAnteriores,
+              folio,
+            ];
+
+            // Actualizar el documento del usuario con el nuevo array de folios
+            await updateDoc(userDocRef, {
+              foliosGuardados: nuevosFoliosGuardados,
+            });
+
+            const ticketQuery = query(
+              collection(db, "tickets"),
+              where("folio", "==", ticketsito.folio)
+            );
+            
+            const ticketQuerySnapshot = await getDocs(ticketQuery);
+            const estadito = "Asignado";
+            if (!ticketQuerySnapshot.empty) {
+              const ticketDocRef = ticketQuerySnapshot.docs[0].ref;
+            
+              // Crear el objeto con los campos a actualizar
+              const camposActualizados = {
+                usuarioAsignado: userData.uid,
+                fechaAsignado: new Date(),
+                estado: estadito
+              };
+            
+              // Actualizar solo los campos especificados en el documento del ticket
+              await updateDoc(ticketDocRef, camposActualizados);
+            
+              console.log("Usuario asignado y fecha de asignación actualizados en el documento del ticket.");
+              const rows = document.querySelectorAll('.ticket-body');
+              rows.forEach((row) => {
+                if (row.querySelector('.folio').textContent === folio) {
+                  row.remove();
+                }
+              });
+            }
           } else {
-            console.error("No se encontró ningún documento de ticket con el folio proporcionado.");
+            // Si el área del ticket no coincide con el área del usuario, mostrar alerta
+            alert("LO SENTIMOS, NO ES DE TU AREA");
           }
-          
-
+        
           console.log("Folio guardado en la base de datos del usuario.");
         } else {
-          console.error(
-            "El documento del usuario no existe en la base de datos."
-          );
+          console.error("El documento del usuario no existe en la base de datos.");
         }
       } else {
-        console.error(
-          "No se encontró ningún documento de usuario que contenga el UID proporcionado."
-        );
+        console.error("No se encontró ningún documento de usuario que contenga el UID proporcionado.");
       }
     } else {
       console.error("No se proporcionaron datos de usuario válidos.");
