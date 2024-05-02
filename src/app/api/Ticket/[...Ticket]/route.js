@@ -64,9 +64,8 @@ function prioridad(errorSeleccionado) {
 export async function POST(req, { params }) {
   try {
     // Extraer los datos del cuerpo de la solicitud
-    console.log("AQUIIII",req.body)
     const [
-      base64Image ,
+      foto ,
       uid,
       errorSeleccionado,
       sistemaOperativo,
@@ -76,16 +75,14 @@ export async function POST(req, { params }) {
       correoA,
       nombre,
       area,
-    ] = params;
-    const imageData = base64Image.split(';base64,').pop();
-    const decodedImage = Buffer.from(imageData, 'base64'); 
+    ] = params.Ticket;
+ 
     const storage = getStorage(app);
     const randomId = Math.random().toString(36).substring(7);
     const imageName = `Ticket_${randomId}`;
     const storageRef = ref(storage, `ImagenesTickets/${uid}/${imageName}`);
-    console.log("URL LLLLLLLLLLLLLLL", imageData)
     // Subir el archivo al almacenamiento de Firebase
-    await uploadBytes(storageRef, decodedImage);
+    await uploadBytes(storageRef, foto);
 
     // Obtener la URL de descarga del archivo
     const url = await getDownloadURL(storageRef);
