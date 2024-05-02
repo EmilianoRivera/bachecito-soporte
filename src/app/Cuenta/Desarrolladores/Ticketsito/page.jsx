@@ -10,6 +10,7 @@ import {
   where,
   getDocs,
   getDoc,
+ 
 } from "firebase/firestore";
 
 function Tickets() {
@@ -37,15 +38,15 @@ useEffect(() => {
       if (!userResponse.ok) {
         throw new Error("Failed to fetch user data");
       }
-      const userData = await userResponse.json();
-     
-      setUserData(userData);
+      const userDatas = await userResponse.json();
+      
+      
+      setUserData(userDatas);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   }
 }, []);
-
 //OBTENER TICKETS
   useEffect(() => {
     async function fetchData() {
@@ -55,6 +56,7 @@ useEffect(() => {
           throw new Error("Failed to fetch data");
         }
         const data = await response.json();
+ 
         setTick(data);
       } catch (error) {
         console.log("Error fetching data: ", error);
@@ -78,11 +80,13 @@ useEffect(() => {
   }
   useEffect(() => {
     // Guardar el array de folios en la base de datos cada vez que cambie
-    guardarTicketBD(foliosGuardados);
-  }, [foliosGuardados]);
+    guardarTicketBD(foliosGuardados, userData);
+  }, [foliosGuardados, userData]);
   // Función para guardar el array de folios en la base de datos
   const guardarTicketBD = async (folio, userData) => {
     try {
+    console.log(folio, " " ,userData)
+
       // Verificar si userData no es null y tiene la propiedad uid
       if (userData && userData.uid) {
         // Realizar una consulta para encontrar el documento del usuario
@@ -113,7 +117,7 @@ useEffect(() => {
               const nuevosFoliosGuardados = foliosGuardadosAnteriores.filter(
                 (f) => f !== folio
               );
-
+              console.log("NUEVOS FOLIOS", nuevosFoliosGuardados)
               // Actualizar el documento del usuario con el nuevo array de folios
               await updateDoc(userDocRef, {
                 foliosGuardados: nuevosFoliosGuardados,
