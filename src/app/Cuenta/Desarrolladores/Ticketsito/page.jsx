@@ -10,14 +10,27 @@ import {
   where,
   getDocs,
   getDoc,
+  doc,
+  setDoc
  
 } from "firebase/firestore";
 
 function Tickets() {
   const [tick, setTick] = useState([]);
-  const [foliosGuardados, setFoliosGuardados] = useState([]);
   const [userData, setUserData] = useState({});
   const router = useRouter();
+  const [showDetails, setShowDetails] = useState(false); 
+  const [selectedTicket, setSelectedTicket] = useState(null); 
+  const [showModal, setShowModal] = useState(false);
+  const openModal = (ticket) => {
+    setSelectedTicket(ticket);
+    setShowModal(true);
+  };
+
+  // Función para cerrar el modal
+  const closeModal = () => {
+    setShowModal(false);
+  };
 //UID
 useEffect(() => {
   if (typeof window !== "undefined") {
@@ -69,17 +82,17 @@ useEffect(() => {
   function formatTimestamp(timestamp) {
     // Verifica si timestamp es un objeto con propiedades seconds y nanoseconds
     if (timestamp && timestamp.seconds && timestamp.nanoseconds) {
-      // Crea una nueva instancia de Date utilizando los segundos del timestamp
-      const dateObject = new Date(timestamp.seconds * 1000); // Multiplica por 1000 para convertir segundos a milisegundos
-      // Formatea la fecha como una cadena legible
-      return dateObject.toLocaleString();
+        // Crea una nueva instancia de Date utilizando los segundos del timestamp
+        const dateObject = new Date(timestamp.seconds * 1000); // Multiplica por 1000 para convertir segundos a milisegundos
+        // Formatea la fecha como una cadena legible
+        return dateObject.toLocaleDateString(); // Obtener solo la fecha sin la hora
     } else {
-      // Si no se puede convertir, devuelve un mensaje de error
-      return "No se puede convertir el timestamp";
+        // Si no se puede convertir, devuelve un mensaje de error
+        return "No se puede convertir el timestamp";
     }
-  }
+}
  //FOLIOS
-const guardarTicketBD = async (folio, userData, ticketsito) => {
+ const guardarTicketBD = async (folio, userData, ticketsito) => {
   try {
     console.log(folio, " ", userData);
 
@@ -107,39 +120,56 @@ const guardarTicketBD = async (folio, userData, ticketsito) => {
           const userData = userDocSnap.data();
           const foliosGuardadosAnteriores = userData.foliosGuardados || [];
 
-          // Verificar si el tipo de usuario coincide con el área del ticket
-          if ((userData.tipo === "Frontend" && ticketsito.area === "Frontend") ||
-              (userData.tipo === "Backend" && ticketsito.area === "Backend")) {
-            // Verificar si el folio ya ha sido guardado previamente
-            if (foliosGuardadosAnteriores.includes(folio)) {
-              // Eliminar el folio del array de folios guardados
-              const nuevosFoliosGuardados = foliosGuardadosAnteriores.filter(
-                (f) => f !== folio
-              );
-              console.log("NUEVOS FOLIOS", nuevosFoliosGuardados)
-              // Actualizar el documento del usuario con el nuevo array de folios
-              await updateDoc(userDocRef, {
-                foliosGuardados: nuevosFoliosGuardados,
-              });
-
-              console.log("Folio eliminado de la base de datos del usuario.");
-            } else {
-              // Agregar el nuevo folio al array de folios guardados
-              const nuevosFoliosGuardados = [
-                ...foliosGuardadosAnteriores,
-                folio,
-              ];
-
-              // Actualizar el documento del usuario con el nuevo array de folios
-              await updateDoc(userDocRef, {
-                foliosGuardados: nuevosFoliosGuardados,
-              });
-
-              console.log("Folio guardado en la base de datos del usuario.");
-            }
-          } else {
-            console.log("No tienes permiso para guardar este folio en esta área.");
+          // Verificar si el folio ya ha sido guardado previamente
+          if (foliosGuardadosAnteriores.includes(folio)) {
+            console.log("El folio ya ha sido guardado anteriormente.");
+            return; // Salir de la función si el folio ya está guardado
           }
+
+          // Agregar el nuevo folio al array de folios guardados
+          const nuevosFoliosGuardados = [
+            ...foliosGuardadosAnteriores,
+            folio,
+          ];
+
+          // Actualizar el documento del usuario con el nuevo array de folios
+          await updateDoc(userDocRef, {
+            foliosGuardados: nuevosFoliosGuardados,
+          });
+
+          const ticketQuery = query(
+            collection(db, "tickets"),
+            where("folio", "==", ticketsito.folio)
+          );
+          
+          const ticketQuerySnapshot = await getDocs(ticketQuery);
+          const estadito = "Asignado";
+          if (!ticketQuerySnapshot.empty) {
+            const ticketDocRef = ticketQuerySnapshot.docs[0].ref;
+          
+            // Crear el objeto con los campos a actualizar
+            const camposActualizados = {
+              usuarioAsignado: userData.uid,
+              fechaAsignado: new Date(),
+              estado: estadito
+            };
+          
+            // Actualizar solo los campos especificados en el documento del ticket
+            await updateDoc(ticketDocRef, camposActualizados);
+          
+            console.log("Usuario asignado y fecha de asignación actualizados en el documento del ticket.");
+            const rows = document.querySelectorAll('.ticket-body');
+                    rows.forEach((row) => {
+                        if (row.querySelector('.folio').textContent === folio) {
+                            row.remove();
+                        }
+                    });
+          } else {
+            console.error("No se encontró ningún documento de ticket con el folio proporcionado.");
+          }
+          
+
+          console.log("Folio guardado en la base de datos del usuario.");
         } else {
           console.error(
             "El documento del usuario no existe en la base de datos."
@@ -158,32 +188,71 @@ const guardarTicketBD = async (folio, userData, ticketsito) => {
   }
 };
 
-  return (
-    <div className="ticket-container"> {/* Nuevo contenedor para el ticket */}
-      <div className="ticket-header"> {/* Encabezado del ticket */}
-        <p className="ticket-title">Tickets de Soporte</p>
-      </div>
-      {tick.map((ticketsito, index) => (
-        <div key={index} className="ticket-body"> {/* Cuerpo del ticket */}
-          <p>AREA: {ticketsito.area}</p>
-          <p>Correo: {ticketsito.correoA}</p>
-          <p>Descripción: {ticketsito.descripcionProblema}</p>
-          <p>{ticketsito.errorSeleccionado}</p>
-          <p>{ticketsito.folio}</p>
-          <p>Fecha de Envío: {formatTimestamp(ticketsito.fechaDeEnvio)}</p>
-          <p>{ticketsito.navegador}</p>
-          <p>{ticketsito.nombre}</p>
-          <p>{ticketsito.priori}</p>
-          <p>{ticketsito.rutitaD}</p>
-          <p>{ticketsito.sistemaOperativo}</p>
-          <div className="fotografía">
-            <img src={ticketsito.url} alt={"FOTO"} style={{ width: '100%', maxHeight: '100%' }} />
-          </div>
-          <button onClick={() => guardarTicketBD(ticketsito.folio, userData, ticketsito)}>Asignar </button>
-        </div>
-      ))}
+return (
+  <div className="ticket-container">
+    <div className="ticket-header">
+      <p className="ticket-title">Tickets de Soporte</p>
     </div>
-  );
-}
+    <table>
+    <thead>
+                    <tr className='sticky-top'>
+                    <th>Folio</th>
 
+                        <th>Area</th>
+                        <th>Descripcion</th>
+                        <th>Fecha de envio</th>
+                        <th>Estado</th>
+                        <th>Prioridad</th>
+                        <th>Ruta</th>
+                    </tr>
+                </thead>
+      <tbody>
+        {tick.map((ticketsito, index) => (
+          <tr key={index} className="ticket-body">
+            <td className="folio">{ticketsito.folio}</td>
+            <td>{ticketsito.area}</td>
+            <td>{ticketsito.descripcionProblema}</td>
+            <td>{formatTimestamp(ticketsito.fechaDeEnvio)}</td>    
+            <td>{ticketsito.estado}</td>      
+            <td>{ticketsito.priori}</td>
+            <td>{ticketsito.rutitaD}</td>
+            <td>
+            </td>
+            <td>
+              <button className="detalles" onClick={() => openModal(ticketsito)}>Detalles</button>
+            </td>
+            <td>
+              <button onClick={() => guardarTicketBD(ticketsito.folio, userData, ticketsito)}>Asignar</button>
+            </td>
+           
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={closeModal}>&times;</span>
+            <p>Detalles del ticket</p>
+            <p>Fecha de Envio: {formatTimestamp(selectedTicket.fechaDeEnvio)}</p>
+            <p>Prioridad: {selectedTicket.priori}</p>
+            <p>Folio: {selectedTicket.folio}</p>
+            <p>Area: {selectedTicket.area}</p>
+            <p>Admin: {selectedTicket.nombre}</p>
+            <p>Correo: {selectedTicket.correoA}</p>
+            <p>Navegador: {selectedTicket.navegador}</p>
+            <p>Sistema Operativo: {selectedTicket.sistemaOperativo}</p>
+            <p>Tipo de error: {selectedTicket.errorSeleccionado}</p>
+            <p>Ruta: {selectedTicket.rutitaD}</p>
+            <p>Descripción: {selectedTicket.descripcionProblema}</p>
+            <div className="fotografía">
+                <img src={selectedTicket.url} alt={"FOTO"} style={{ width: '100%', maxHeight: '100%' }} />
+        </div>  
+          </div>
+        </div>
+      )}
+  </div>
+);
+
+}
 export default Tickets;

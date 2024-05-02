@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { db, collection, getDocs, query} from "../../../../firebase";
+import { db, collection, getDocs, query, where} from "../../../../firebase";
 
 export async function GET(request) {
   try {
     const ticketsRef = collection(db, 'tickets')
-    const q = query(ticketsRef);
+    const q = query(ticketsRef,  where("estado", "==", "Sin asignar"));
     const ticketsSnapshot = await getDocs(q);
 
     const tickets = [];
