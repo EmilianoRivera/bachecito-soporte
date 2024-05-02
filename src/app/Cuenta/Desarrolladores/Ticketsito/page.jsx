@@ -78,39 +78,38 @@ useEffect(() => {
       return "No se puede convertir el timestamp";
     }
   }
-/*   useEffect(() => {
-    // Guardar el array de folios en la base de datos cada vez que cambie
-    guardarTicketBD(foliosGuardados);
-  }, [foliosGuardados]); */
-  // Función para guardar el array de folios en la base de datos
-  const guardarTicketBD = async (folio, userData) => {
-    try {
-    console.log(folio, " " ,userData)
+ //FOLIOS
+const guardarTicketBD = async (folio, userData, ticketsito) => {
+  try {
+    console.log(folio, " ", userData);
 
-      // Verificar si userData no es null y tiene la propiedad uid
-      if (userData && userData.uid) {
-        // Realizar una consulta para encontrar el documento del usuario
-        const userQuery = query(
-          collection(db, "usuarios"),
-          where("uid", "==", userData.uid)
-        );
+    // Verificar si userData no es null y tiene la propiedad uid
+    if (userData && userData.uid) {
+      // Realizar una consulta para encontrar el documento del usuario
+      const userQuery = query(
+        collection(db, "usuarios"),
+        where("uid", "==", userData.uid)
+      );
 
-        // Obtener el resultado de la consulta
-        const userQuerySnapshot = await getDocs(userQuery);
+      // Obtener el resultado de la consulta
+      const userQuerySnapshot = await getDocs(userQuery);
 
-        // Verificar si se encontró algún documento
-        if (!userQuerySnapshot.empty) {
-          // Obtener la referencia al primer documento encontrado
-          const userDocRef = userQuerySnapshot.docs[0].ref;
+      // Verificar si se encontró algún documento
+      if (!userQuerySnapshot.empty) {
+        // Obtener la referencia al primer documento encontrado
+        const userDocRef = userQuerySnapshot.docs[0].ref;
 
-          // Obtener el documento del usuario
-          const userDocSnap = await getDoc(userDocRef);
+        // Obtener el documento del usuario
+        const userDocSnap = await getDoc(userDocRef);
 
-          if (userDocSnap.exists()) {
-            // Obtener los datos actuales del documento del usuario
-            const userData = userDocSnap.data();
-            const foliosGuardadosAnteriores = userData.foliosGuardados || [];
+        if (userDocSnap.exists()) {
+          // Obtener los datos actuales del documento del usuario
+          const userData = userDocSnap.data();
+          const foliosGuardadosAnteriores = userData.foliosGuardados || [];
 
+          // Verificar si el tipo de usuario coincide con el área del ticket
+          if ((userData.tipo === "Frontend" && ticketsito.area === "Frontend") ||
+              (userData.tipo === "Backend" && ticketsito.area === "Backend")) {
             // Verificar si el folio ya ha sido guardado previamente
             if (foliosGuardadosAnteriores.includes(folio)) {
               // Eliminar el folio del array de folios guardados
@@ -139,22 +138,26 @@ useEffect(() => {
               console.log("Folio guardado en la base de datos del usuario.");
             }
           } else {
-            console.error(
-              "El documento del usuario no existe en la base de datos."
-            );
+            console.log("No tienes permiso para guardar este folio en esta área.");
           }
         } else {
           console.error(
-            "No se encontró ningún documento de usuario que contenga el UID proporcionado."
+            "El documento del usuario no existe en la base de datos."
           );
         }
       } else {
-        console.error("No se proporcionaron datos de usuario válidos.");
+        console.error(
+          "No se encontró ningún documento de usuario que contenga el UID proporcionado."
+        );
       }
-    } catch (error) {
-      console.error("Error al guardar el folio en la base de datos:", error);
+    } else {
+      console.error("No se proporcionaron datos de usuario válidos.");
     }
-  };
+  } catch (error) {
+    console.error("Error al guardar el folio en la base de datos:", error);
+  }
+};
+
   return (
     <div className="ticket-container"> {/* Nuevo contenedor para el ticket */}
       <div className="ticket-header"> {/* Encabezado del ticket */}
@@ -176,7 +179,7 @@ useEffect(() => {
           <div className="fotografía">
             <img src={ticketsito.url} alt={"FOTO"} style={{ width: '100%', maxHeight: '100%' }} />
           </div>
-          <button onClick={() => guardarTicketBD(ticketsito.folio, userData)}>Asignar </button>
+          <button onClick={() => guardarTicketBD(ticketsito.folio, userData, ticketsito)}>Asignar </button>
         </div>
       ))}
     </div>

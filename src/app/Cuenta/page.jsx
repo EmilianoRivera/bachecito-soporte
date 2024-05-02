@@ -66,7 +66,6 @@ function Administrador() {
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
-        
         email,
         password
       );
