@@ -78,7 +78,10 @@ useEffect(() => {
       return "No se puede convertir el timestamp";
     }
   }
- 
+/*   useEffect(() => {
+    // Guardar el array de folios en la base de datos cada vez que cambie
+    guardarTicketBD(foliosGuardados);
+  }, [foliosGuardados]); */
   // Función para guardar el array de folios en la base de datos
   const guardarTicketBD = async (folio, userData) => {
     try {
