@@ -41,7 +41,7 @@ function prioridad(errorSeleccionado) {
     case "S001":
     case "S002":
     case "0000":
-      priori = "PRIORIDAD ALTA";
+      priori = "ALTA";
       break;
     case "D001":
     case "D002":
@@ -53,10 +53,10 @@ function prioridad(errorSeleccionado) {
     case "P001":
     case "P002":
     case "T001":
-      priori = "PRIORIDAD MEDIA";
+      priori = "MEDIA";
       break;
     default:
-      priori = "PRIORIDAD DESCONOCIDA";
+      priori = "DESCONOCIDA";
   }
   return priori; // Devuelve el string con la prioridad
 }
@@ -64,9 +64,9 @@ function prioridad(errorSeleccionado) {
 export async function POST(req, { params }) {
   try {
     // Extraer los datos del cuerpo de la solicitud
-
+    console.log("AQUIIII",req.body)
     const [
-      file,
+      base64Image ,
       uid,
       errorSeleccionado,
       sistemaOperativo,
@@ -76,20 +76,23 @@ export async function POST(req, { params }) {
       correoA,
       nombre,
       area,
-    ] = params.Ticket;
+    ] = params;
+    const imageData = base64Image.split(';base64,').pop();
+    const decodedImage = Buffer.from(imageData, 'base64'); 
     const storage = getStorage(app);
     const randomId = Math.random().toString(36).substring(7);
     const imageName = `Ticket_${randomId}`;
     const storageRef = ref(storage, `ImagenesTickets/${uid}/${imageName}`);
-
+    console.log("URL LLLLLLLLLLLLLLL", imageData)
     // Subir el archivo al almacenamiento de Firebase
-    await uploadBytes(storageRef, file);
+    await uploadBytes(storageRef, decodedImage);
 
     // Obtener la URL de descarga del archivo
     const url = await getDownloadURL(storageRef);
     const rutitaD = decodeURIComponent(rutaError);
     const folio = await folioTicket(errorSeleccionado, rutaError);
     const priori = prioridad(errorSeleccionado);
+    const estado = "Sin asignar"
     // Validar los datos si es necesario
     resend.emails.send({
       from: "onboarding@resend.dev",
@@ -107,10 +110,11 @@ export async function POST(req, { params }) {
       rutitaD,
       descripcionProblema,
       fechaDeEnvio: new Date(),
-      nombre,
       correoA,
+      nombre,
       area,
       url,
+      estado
     });
 
     // Enviar una respuesta de éxito

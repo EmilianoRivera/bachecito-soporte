@@ -174,7 +174,8 @@ useEffect(() => {
           <p>{ticketsito.rutitaD}</p>
           <p>{ticketsito.sistemaOperativo}</p>
           <div className="fotografía">
-            <img src={ticketsito.url} alt={"FOTO"} style={{ width: '100%', maxHeight: '100%' }} />
+          <img src={ticketsito.url} alt={""} style={{ width: '100%', maxHeight: '100%' }} />
+        {ticketsito.url}
           </div>
           <button onClick={() => guardarTicketBD(ticketsito.folio, userData)}>Asignar </button>
         </div>
