@@ -1,13 +1,13 @@
-import { NextResponse } from "next/server";  
-import { db, collection, addDoc, getDocs } from "../../../../../firebase";
+import { NextResponse } from "next/server";
+import { db, collection, addDoc, getDocs, app } from "../../../../../firebase";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
 //import nodemailer from "nodemailer";
-import { Resend } from 'resend';
+import { Resend } from "resend";
 
 const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
 
-
 async function folioTicket(errorSeleccionado, rutaError) {
- 
   const refTickets = collection(db, "tickets");
   const querySnapshot = await getDocs(refTickets);
   let maxNumeroFolio = 0;
@@ -63,11 +63,11 @@ function prioridad(errorSeleccionado) {
 
 export async function POST(req, { params }) {
   try {
-    console.log(params.Soporte);
-
     // Extraer los datos del cuerpo de la solicitud
 
     const [
+      file,
+      uid,
       errorSeleccionado,
       sistemaOperativo,
       navegador,
@@ -75,56 +75,46 @@ export async function POST(req, { params }) {
       descripcionProblema,
       correoA,
       nombre,
-      url,
-      area
+      area,
+    ] = params.Ticket;
+    const storage = getStorage(app);
+    const randomId = Math.random().toString(36).substring(7);
+    const imageName = `Ticket_${randomId}`;
+    const storageRef = ref(storage, `ImagenesTickets/${uid}/${imageName}`);
 
-    ] = params.Soporte;
+    // Subir el archivo al almacenamiento de Firebase
+    await uploadBytes(storageRef, file);
+
+    // Obtener la URL de descarga del archivo
+    const url = await getDownloadURL(storageRef);
     const rutitaD = decodeURIComponent(rutaError);
-    const urlsitaD = decodeURIComponent(url);
     const folio = await folioTicket(errorSeleccionado, rutaError);
     const priori = prioridad(errorSeleccionado);
     // Validar los datos si es necesario
-    console.log(
-      errorSeleccionado,
-      " ",
-      sistemaOperativo,
-      " ",
-      navegador,
-      " ",
-      rutitaD,
-      " ",
-      descripcionProblema,
-      " ",
-      urlsitaD, " ", priori, " ", folio
-    ); 
-    console.log(resend)
     resend.emails.send({
-      from: 'onboarding@resend.dev',
+      from: "onboarding@resend.dev",
       to: correoA,
-      subject: 'Confirmación de recepción de ticket',
-      html: `Se ha recibido su ticket con el folio: ${folio}.`
+      subject: "Confirmación de recepción de ticket",
+      html: `Se ha recibido su ticket con el folio: ${folio}.`,
     });
-    
 
+    const docRef = await addDoc(collection(db, "tickets"), {
+      folio,
+      priori,
+      errorSeleccionado,
+      sistemaOperativo,
+      navegador,
+      rutitaD,
+      descripcionProblema,
+      fechaDeEnvio: new Date(),
+      nombre,
+      correoA,
+      area,
+      url,
+    });
 
-    const docRef = await addDoc(collection(db, 'tickets'), {
-        folio,
-        priori,
-        errorSeleccionado,
-        sistemaOperativo,
-        navegador,
-        rutitaD,
-        descripcionProblema,
-        fechaDeEnvio: new Date(),
-        urlsitaD,
-        nombre,
-        correoA,
-        area
-      });
-
-  console.log(docRef)
     // Enviar una respuesta de éxito
-    return NextResponse.json(docRef );
+    return NextResponse.json(docRef);
   } catch (error) {
     console.error("Error al obtener reportes:", error);
     return NextResponse.error("Error al obtener reportes", { status: 500 });
