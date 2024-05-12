@@ -8,8 +8,6 @@ function Desarrolladores() {
       <br/>
       <Link href="/Cuenta/Desarrolladores/MisTickets">Mis tickets</Link>
       <br/>
-      <Link href="/Cuenta/Desarrolladores/NuevoDev">Nuevo dev</Link>
-      <br/>
       <Link href="/Cuenta/Desarrolladores/Ticketsito">Tickets</Link>
     </div>
   )
