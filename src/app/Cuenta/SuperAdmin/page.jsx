@@ -1,5 +1,4 @@
 "use client"
-import Link from 'next/link';
 import React from 'react';
 import { auth } from "../../../../firebase";
 import { signOut } from "firebase/auth";
@@ -31,7 +30,7 @@ function SuperAdmin() {
             <br></br>
             <a href="/Cuenta/SuperAdmin/GestionTickets"> GESTION TICKETS </a>  
             <br></br>
-            <a onClick={CerrarSesion}> CERRAR SESION </a>  
+            <button onClick={CerrarSesion}> CERRAR SESION </button>  
         </div>
     );
 }

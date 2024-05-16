@@ -20,8 +20,11 @@ function Gtickets() {
   const router = useRouter();
   const [selectedTicket, setSelectedTicket] = useState(null); 
   const [selectedTicket2, setSelectedTicket2] = useState(null); 
+
   const [showModal, setShowModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
+  const [showModal3, setShowModal3] = useState(false);
+
 
   const openModal = (ticket) => {
     setSelectedTicket(ticket);
@@ -31,13 +34,19 @@ function Gtickets() {
     setSelectedTicket2(ticket);
     setShowModal2(true);
   };
-  // Función para cerrar el modal
+  const openModal3 = (ticket) => {
+    setShowModal3(true);
+    setSelectedTicket(ticket);
+  
+  };
   const closeModal = () => {
     setShowModal(false);
   };
-  // Función para cerrar el modal
   const closeModal2 = () => {
     setShowModal2(false);
+  };
+  const closeModal3 = () => {
+    setShowModal3(false);
   };
 //UID
 useEffect(() => {
@@ -86,6 +95,7 @@ useEffect(() => {
 
   fetchData();
 }, []);
+//DATOS DEL USUARIO "Asignado" DEL TICKET
 useEffect(() => {
   async function fetchData() {
     try {
@@ -111,6 +121,7 @@ useEffect(() => {
 
   fetchData();
 }, [selectedTicket2]);
+//DATOS DEL USUARIO "resuelto por" DEL TICKET
 useEffect(() => {
   async function fetchData() {
     try {
@@ -136,8 +147,28 @@ useEffect(() => {
 
   fetchData();
 }, [selectedTicket2]);
+//DEVS TODOS: 
+ useEffect(() => {
+    async function fetchData() {
+      try {
+        const userResponse = await fetch("/api/DevsGeneral");
+        if (!userResponse.ok) {
+          throw new Error("Failed to fetch user data");
+        }
+        const userDatas = await userResponse.json();
 
-
+        setUserData(userDatas);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+    fetchData();
+  }, []);
+  //REASIGNAR
+  const Reasignar= async(folio, userData) => {
+    console.log(folio, " ", userData);
+    
+  }
  //Fecha
   function formatTimestamp(timestamp) {
     // Verifica si timestamp es un objeto con propiedades seconds y nanoseconds
@@ -207,6 +238,8 @@ return (
             <td>
               <button className="detalles" onClick={() => openModal2(ticketsito)}>Historial</button>
             </td>
+            <td> <button onClick={() => openModal3(ticketsito)}>Reabrir</button></td>
+         
          {/*  <td>
               <button onClick={() => guardarTicketBD(ticketsito.folio, userData, ticketsito)}>Asignar</button>
         </td>*/}
@@ -253,7 +286,31 @@ return (
             <p>Resuelto por: {userData3.nombre}  {userData3.apellidoPaterno} ({userData3.rol} / {userData3.tipo} ) </p>
             <p>Fecha de Resolución: {formatTimestamp(selectedTicket2.fechaResuelto)}</p>
             <p>Hora de Resolución: {hora(selectedTicket2.fechaResuelto)}</p>
-            
+          </div>
+        </div>
+      )}
+      {showModal3 && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={closeModal3}>&times;</span>
+            <p>Reabrir</p>
+            {Array.isArray(userData) &&
+            userData.map((user, index) => (
+              <tr key={index} className="ticket-body">
+                <td>{user.nombre}</td>
+                <td>{user.tipo}</td>
+                <td>{user.correo}</td>
+                <td>
+                  <select>
+                    {user.foliosGuardados.map((folio, index) => (
+                      <option key={index} onClick={()=> openModal(folio)}>{folio}</option>
+                    ))}
+                  </select>
+                </td>
+              <td><button  onClick={()=> Reasignar(selectedTicket.folio, user)}>Reasignar</button></td>
+              </tr>
+            ))}
+
           </div>
         </div>
       )}

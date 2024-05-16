@@ -88,10 +88,25 @@ const cambiarEstado = async (folio, userData) => {
     );
     setUserTickets(updatedTickets);
     closeModal(); 
+
+    // Enviar notificación a BACHECITOWEB (BW) cuando un ticket se marque como resuelto
+    const res = await fetch('http://localhost:3000/api/Noti', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        ticketFolio: folio
+      })
+    });
+
+    if (!res.ok) {
+      throw new Error('Error al enviar la notificación a BW');
+    }
+
   } catch (error) {
     console.error('Error al cambiar el estado del ticket:', error);
-  }
-};
+  }};
   return (
     <div className="ticket-container">
     <div className="ticket-header">
