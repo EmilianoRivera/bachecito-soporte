@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from 'react';
 import { auth, db } from "../../../../../firebase";
 import './tickets.css';
@@ -11,6 +11,7 @@ import {
   getDocs,
   getDoc,
 } from "firebase/firestore";
+import "./tickets.css";
 
 function Gtickets() {
   const [tick, setTick] = useState([]);
@@ -176,19 +177,20 @@ return (
     <div className="ticket-header">
       <p className="ticket-title">Cambios en los Tickets</p>
     </div>
-    <table>
-    <thead>
-                    <tr className='sticky-top'>
-                    <th>Folio</th>
-
-                        <th>Area</th>
-                        <th>Descripcion</th>
-                        <th>Fecha de envio</th>
-                        <th>Estado</th>
-                        <th>Prioridad</th>
-                        <th>Ruta</th>
-                    </tr>
-                </thead>
+    <table className="ticket-table">
+      <thead>
+        <tr className="sticky-top">
+          <th>Folio</th>
+          <th>Area</th>
+          <th>Descripcion</th>
+          <th>Fecha de envio</th>
+          <th>Estado</th>
+          <th>Prioridad</th>
+          <th>Ruta</th>
+          <th>Detalles</th>
+          <th>Historial</th>
+        </tr>
+      </thead>
       <tbody>
         {tick.map((ticketsito, index) => (
           <tr key={index} className="ticket-body">
@@ -200,65 +202,57 @@ return (
             <td>{ticketsito.priori}</td>
             <td>{ticketsito.rutitaD}</td>
             <td>
+              <button className="ticket-button" onClick={() => openModal(ticketsito)}>Detalles</button>
             </td>
             <td>
-              <button className="detalles" onClick={() => openModal(ticketsito)}>Detalles</button>
+              <button className="ticket-button" onClick={() => openModal2(ticketsito)}>Historial</button>
             </td>
-            <td>
-              <button className="detalles" onClick={() => openModal2(ticketsito)}>Historial</button>
-            </td>
-         {/*  <td>
-              <button onClick={() => guardarTicketBD(ticketsito.folio, userData, ticketsito)}>Asignar</button>
-        </td>*/}
-           
           </tr>
         ))}
       </tbody>
     </table>
     {showModal && (
-        <div className="modal">
-          <div className="modal-content">
-            <span className="close" onClick={closeModal}>&times;</span>
-            <p>Detalles del ticket</p>
-            <p>Fecha de Envio: {formatTimestamp(selectedTicket.fechaDeEnvio)}</p>
-            <p>Prioridad: {selectedTicket.priori}</p>
-            <p>Folio: {selectedTicket.folio}</p>
-            <p>Area: {selectedTicket.area}</p>
-            <p>Admin: {selectedTicket.nombre}</p>
-            <p>Correo: {selectedTicket.correoA}</p>
-            <p>Navegador: {selectedTicket.navegador}</p>
-            <p>Sistema Operativo: {selectedTicket.sistemaOperativo}</p>
-            <p>Tipo de error: {selectedTicket.errorSeleccionado}</p>
-            <p>Ruta: {selectedTicket.rutitaD}</p>
-            <p>Descripción: {selectedTicket.descripcionProblema}</p>
-            <div className="fotografía">
-                <img src={selectedTicket.url} alt={"FOTO"} style={{ width: '100%', maxHeight: '100%' }} />
-        </div>  
-          </div>
+      <div className="modal">
+        <div className="modal-content">
+          <span className="close" onClick={closeModal}>&times;</span>
+          <p>Detalles del ticket</p>
+          <p>Fecha de Envio: {formatTimestamp(selectedTicket.fechaDeEnvio)}</p>
+          <p>Prioridad: {selectedTicket.priori}</p>
+          <p>Folio: {selectedTicket.folio}</p>
+          <p>Area: {selectedTicket.area}</p>
+          <p>Admin: {selectedTicket.nombre}</p>
+          <p>Correo: {selectedTicket.correoA}</p>
+          <p>Navegador: {selectedTicket.navegador}</p>
+          <p>Sistema Operativo: {selectedTicket.sistemaOperativo}</p>
+          <p>Tipo de error: {selectedTicket.errorSeleccionado}</p>
+          <p>Ruta: {selectedTicket.rutitaD}</p>
+          <p>Descripción: {selectedTicket.descripcionProblema}</p>
+          <div className="fotografía">
+            <img src={selectedTicket.url} alt={"FOTO"} style={{ width: '100%', maxHeight: '100%' }} />
+          </div>  
         </div>
-      )}
-       {showModal2 && (
-        <div className="modal">
-          <div className="modal-content">
-            <span className="close" onClick={closeModal2}>&times;</span>
-            <p>Historial del ticket</p>
-            <p>Prioridad: {selectedTicket2.priori}</p>
-            <p>Area: {selectedTicket2.area}</p>
-            <p>Enviado por: {selectedTicket2.nombre} - {selectedTicket2.correoA}</p>
-            <p>Fecha de Envio: {formatTimestamp(selectedTicket2.fechaDeEnvio)}</p>
-            <p>Hora de Envio: {hora(selectedTicket2.fechaDeEnvio)}</p>
-            <p>Asignado a:  {userData2.nombre}  {userData2.apellidoPaterno} ({userData2.rol} / {userData2.tipo} )</p>
-            <p>Fecha de Asignación: {formatTimestamp(selectedTicket2.fechaAsignado)}</p>
-            <p>Hora de Asignación: {hora(selectedTicket2.fechaAsignado)}</p>
-            <p>Resuelto por: {userData3.nombre}  {userData3.apellidoPaterno} ({userData3.rol} / {userData3.tipo} ) </p>
-            <p>Fecha de Resolución: {formatTimestamp(selectedTicket2.fechaResuelto)}</p>
-            <p>Hora de Resolución: {hora(selectedTicket2.fechaResuelto)}</p>
-            
-          </div>
+      </div>
+    )}
+    {showModal2 && (
+      <div className="modal">
+        <div className="modal-content">
+          <span className="close" onClick={closeModal2}>&times;</span>
+          <p>Historial del ticket</p>
+          <p>Prioridad: {selectedTicket2.priori}</p>
+          <p>Area: {selectedTicket2.area}</p>
+          <p>Enviado por: {selectedTicket2.nombre} - {selectedTicket2.correoA}</p>
+          <p>Fecha de Envio: {formatTimestamp(selectedTicket2.fechaDeEnvio)}</p>
+          <p>Hora de Envio: {hora(selectedTicket2.fechaDeEnvio)}</p>
+          <p>Asignado a:  {userData2.nombre}  {userData2.apellidoPaterno} ({userData2.rol} / {userData2.tipo} )</p>
+          <p>Fecha de Asignación: {formatTimestamp(selectedTicket2.fechaAsignado)}</p>
+          <p>Hora de Asignación: {hora(selectedTicket2.fechaAsignado)}</p>
+          <p>Resuelto por: {userData3.nombre}  {userData3.apellidoPaterno} ({userData3.rol} / {userData3.tipo} ) </p>
+          <p>Fecha de Resolución: {formatTimestamp(selectedTicket2.fechaResuelto)}</p>
+          <p>Hora de Resolución: {hora(selectedTicket2.fechaResuelto)}</p>
         </div>
-      )}
+      </div>
+    )}
   </div>
 );
-
 }
 export default Gtickets;
