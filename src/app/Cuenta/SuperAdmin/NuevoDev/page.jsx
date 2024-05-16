@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from "react";
-import {auth, db} from "../../../../../firebase";
-import {createUserWithEmailAndPassword, sendEmailVerification}from "firebase/auth";
+import { auth, db } from "../../../../../firebase";
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { addDoc, collection } from 'firebase/firestore';
 import "./style.css";
 
@@ -46,84 +46,75 @@ function NuevoDev() {
     e.preventDefault();
     console.log(nombre, apmat, appat, correo, contraseña, fechaNacimiento, tipo);
     try {
-        e.preventDefault();
-        const devCredential = await createUserWithEmailAndPassword(auth, correo, contraseña)
-        const dev = devCredential.user
-        sendEmailVerification(dev)
-        alert("Se envió correo")
-        const uid = dev.uid
-        
-        const usuariosCollection = collection(db, "usuarios")   //collection(db, "tickets")
-        const nuevoUsuario = {
-            uid: uid, 
-            nombre: nombre,
-            apellidoPaterno: appat,
-            apellidoMaterno: apmat,
-            fechaNacimiento: fechaNacimiento,
-            correo: correo,
-            estadoCuenta: true,
-            rol: "dev",
-            tipo: tipo
-        }
-        addDoc(usuariosCollection, nuevoUsuario)
-        alert("Se guardó al desarrollador")
+      e.preventDefault();
+      const devCredential = await createUserWithEmailAndPassword(auth, correo, contraseña)
+      const dev = devCredential.user
+      sendEmailVerification(dev)
+      alert("Se envió correo")
+      const uid = dev.uid
+
+      const usuariosCollection = collection(db, "usuarios")   //collection(db, "tickets")
+      const nuevoUsuario = {
+        uid: uid,
+        nombre: nombre,
+        apellidoPaterno: appat,
+        apellidoMaterno: apmat,
+        fechaNacimiento: fechaNacimiento,
+        correo: correo,
+        estadoCuenta: true,
+        rol: "dev",
+        tipo: tipo
+      }
+      addDoc(usuariosCollection, nuevoUsuario)
+      alert("Se guardó al desarrollador")
     } catch (error) {
-        console.error("error al crear la cuenta: ", error)
-        alert(error.mesagge)
+      console.error("error al crear la cuenta: ", error)
+      alert(error.mesagge)
     }
   };
 
   return (
-    
-    <div className="container-nuevodev">
-      <h1>Nuevo Desarrollador</h1>
-      <dev>
-        <form onSubmit={handleRegistroDev}>
-          <label>Nombre Completo: </label>
-          <input type="text" onChange={handleNombre} />
-          <br />
-          <br />
-          <br />
+    <div className="bodyNuevoDev">
+      <div className="container-nuevodev">
+        <div className="NuevoDev">
 
-          <label>Apellido Materno: </label>
-          <input type="text" onChange={handleApellidoMaterno} />
-          <br />
-          <br />
-          <br />
+          <h1>Nuevo Desarrollador</h1>
 
-          <label>Apellido Paterno: </label>
-          <input type="text" onChange={handleApellidoPaterno} />
-          <br />
-          <br />
-          <br />
-          <label>Fecha de Nacimiento: </label>
-          <input type="date" onChange={handleFechaNacimiento} />
-          <br />
-          <br />
-          <br />
-          <label>Correo: </label>
-          <input type="email" onChange={handleCorreo} />
-          <br />
-          <br />
-          <br />
-          <label>Contraseña: </label>
-          <input type="password" onChange={handleContraseña} />
-          <br />
-          <br />
-          <br />
-          <label>Tipo de Desarrollador: </label>
-          <select value={tipo} onChange={handleTipo}>
-            <option value="">Tipo de Desarrollador</option>
-            <option value="Frontend">Frontend</option>
-            <option value="Backend">Backend</option>
-          </select>
-          <br />
-          <br />
-          <br />
-          <button type="submit" id="btn-registrarDev">Registrarse</button>
-        </form>
-      </dev>
+          <div className="formularioNuevoDev">
+            <form onSubmit={handleRegistroDev}>
+
+              <input className="datosDev" type="text" onChange={handleNombre} placeholder="Nombre Completo" />
+              <br />
+              <div className="apellidos_Container">
+                <input className="datosDev" id="apmat" type="text" onChange={handleApellidoMaterno} placeholder="Apellido Materno" />
+                <br />
+                <input className="datosDev" id="appat" type="text" onChange={handleApellidoPaterno} placeholder="Apellido Paterno" />
+                <br />
+              </div>
+              <input className="datosDev" type="date" onChange={handleFechaNacimiento} placeholder="Fecha de Nacimiento" />
+              <br />
+              <input className="datosDev" type="email" onChange={handleCorreo} placeholder="Correo Electrónico" />
+              <br />
+              <input className="datosDev" type="password" onChange={handleContraseña} placeholder="Contraseña" />
+              <br />
+              <label>Tipo de Desarrollador: </label>
+              <select value={tipo} onChange={handleTipo}>
+                <option value="">Tipo de Desarrollador</option>
+                <option value="Frontend">Frontend</option>
+                <option value="Backend">Backend</option>
+              </select>
+              <br />
+              <button type="submit" id="btn-registrarDev">Registrarse</button>
+            </form>
+          </div>
+        </div>
+
+        <div className='imagen-nuevoDev'>
+        </div>
+
+      </div>
     </div>
+
   );
 }
 

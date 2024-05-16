@@ -1,5 +1,159 @@
-.container-nuevodev{
-    z-index: 100000;
-    position: absolute;
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@400..800&family=Nunito:ital,wght@0,200..1000;1,200..1000&display =intercambiar');
 
+.bodyNuevoDev {
+    display: flex;
+    flex-direction: column;
+    height: 90vh;
+    width: 93vw;
+    align-items: center;
+
+}
+
+.container-nuevodev {
+    background-color: #F1F1F1;
+    border-radius: 30px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    width: 85%;
+    height: 80vh;
+    margin-top: 5%;
+    max-width: 100%;
+    min-height: 480px;
+    position: relative;
+    display: flex;
+    z-index: 100;
+}
+
+.container-nuevodev .NuevoDev,
+.imagen-nuevoDev {
+    flex: 1;
+    /* Permite que los campos de entrada de los apellidos se expandan para llenar el espacio disponible */
+    margin-right: -5%;
+    /* Ajusta el margen entre los campos de entrada de los apellidos */
+}
+
+.container-nuevodev .NuevoDev,
+.imagen-nuevoDev {
+    margin-right: 0;
+    /* Elimina el margen derecho del último campo de entrada de los apellidos */
+}
+
+.container-nuevodev {
+    width: 40%;
+    align-items: center;
+    justify-content: center;
+}
+
+.formularioNuevoDev {
+    height: 95%;
+    width: 60%;
+    margin-left: 20%;
+}
+
+.apellidos-Container {
+    display: flex;
+    /* Hace que los elementos hijos se muestren en línea */
+}
+
+.apellidos-Container #apmat,
+#appat {
+    flex: 1;
+    /* Permite que los campos de entrada de los apellidos se expandan para llenar el espacio disponible */
+    margin-right: 8%;
+    /* Ajusta el margen entre los campos de entrada de los apellidos */
+}
+
+.apellidos-Container #apmat,
+#appat:last-child {
+    margin-right: -6.25%;
+    /* Elimina el margen derecho del último campo de entrada de los apellidos */
+}
+
+.container-nuevodev #textito-admin {
+    color: var(--text-color-3);
+    text-decoration: none;
+    margin-bottom: 10px;
+    margin-left: 15.5%;
+    position: absolute;
+    font-family: "Nunito", sans-serif;
+    font-size: 15px;
+
+}
+
+.container-nuevodev #titulo-admin {
+    width: 50%;
+    font-size: 25px;
+    font-weight: 800;
+    font-family: "Nunito", sans-serif;
+    color: #FF9F49;
+    text-align: center;
+    margin-left: 26.5%;
+    margin-top: 7%;
+}
+
+.container-nuevodev .datosDev {
+    background-color: #FFF;
+    border: none;
+    margin: 8px 0;
+    padding: 10px;
+    font-size: 13px;
+    border-radius: 8px;
+    width: 100%;
+    outline: auto;
+    outline-color: var(--background-color);
+    color: var(--text-color-3);
+    transition: outline 0.5s ease;
+}
+
+.container-nuevodev .datosDev:hover {
+    /* Cambia el color del texto al pasar el mouse */
+    outline-color: #FF9F49;
+    border-color: #ff9f49;
+    /* Agrega un borde naranja al pasar el mouse */
+}
+
+.container-nuevodev .datosDev::placeholder {
+    color: var(--text-color-3);
+    /* Color del placeholder predeterminado */
+    transition: color 0.5s ease;
+    /* Transición suave */
+}
+
+.container-nuevodev .datosDev:hover::placeholder {
+    color: #ff9f49;
+    /* Cambia el color del placeholder al pasar el mouse */
+}
+
+.container-nuevodev #btn-registrarUsuario {
+    background-color: #FF9F49;
+    color: #fff;
+    font-size: 15px;
+    font-family: "Baloo Thambi 2", system-ui;
+    padding: 7.5px 45px;
+    border: 1px solid transparent;
+    border-radius: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-top: 25px;
+    cursor: pointer;
+    margin-left: 25%;
+}
+
+.imagen-nuevoDev {
+    width: 60%;
+    height: 80vh;
+    margin: 0;
+    padding: 0;
+    background-image: var(--background-image-1);
+    background-position: right;
+    background-size: 98vh;
+    background-repeat: no-repeat;
+}
+
+.imagen-nuevoDev img {
+    width: 100%;
+    height: 100%;
 }
