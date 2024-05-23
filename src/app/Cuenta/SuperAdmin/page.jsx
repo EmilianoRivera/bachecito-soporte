@@ -1,9 +1,8 @@
-"use client"
+"use client";
 import React from 'react';
 import { auth } from "../../../../firebase";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
-
 import "./style.css"
 // Importar los estilos CSS
 
@@ -31,13 +30,13 @@ function SuperAdmin() {
         <br/><br/>
 
         <div className="opcionesSuperAdmin">
-          <a href="/Cuenta/SuperAdmin/GestionDevs"> GESTION DEVS </a>
+          <a href="/Cuenta/SuperAdmin/GestionDevs"> GESTIÓN DEVS </a>
           <br></br>
           <a href="/Cuenta/SuperAdmin/NuevoDev"> NUEVOS DEVS </a>
           <br></br>
-          <a href="/Cuenta/SuperAdmin/GestionTickets"> GESTION TICKETS </a>
+          <a href="/Cuenta/SuperAdmin/GestionTickets"> GESTIÓN TICKETS </a>
           <br></br>
-          <a onClick={CerrarSesion}> CERRAR SESION </a>
+          <a onClick={CerrarSesion}> CERRAR SESIÓN </a>
         </div>
       </div>
 

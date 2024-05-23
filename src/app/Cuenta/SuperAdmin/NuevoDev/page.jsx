@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import { auth, db } from "../../../../../firebase";
 import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
@@ -78,7 +78,7 @@ function NuevoDev() {
       <div className="container-nuevodev">
         <div className="NuevoDev">
 
-          <h1>Nuevo Desarrollador</h1>
+          <h2 id="titulo-dev">Nuevo Desarrollador</h2>
 
           <div className="formularioNuevoDev">
             <form onSubmit={handleRegistroDev}>
@@ -86,9 +86,9 @@ function NuevoDev() {
               <input className="datosDev" type="text" onChange={handleNombre} placeholder="Nombre Completo" />
               <br />
               <div className="apellidos_Container">
-                <input className="datosDev" id="apmat" type="text" onChange={handleApellidoMaterno} placeholder="Apellido Materno" />
-                <br />
                 <input className="datosDev" id="appat" type="text" onChange={handleApellidoPaterno} placeholder="Apellido Paterno" />
+                <br />
+                <input className="datosDev" id="apmat" type="text" onChange={handleApellidoMaterno} placeholder="Apellido Materno" />
                 <br />
               </div>
               <input className="datosDev" type="date" onChange={handleFechaNacimiento} placeholder="Fecha de Nacimiento" />
@@ -97,13 +97,13 @@ function NuevoDev() {
               <br />
               <input className="datosDev" type="password" onChange={handleContraseña} placeholder="Contraseña" />
               <br />
-              <label>Tipo de Desarrollador: </label>
-              <select value={tipo} onChange={handleTipo}>
-                <option value="">Tipo de Desarrollador</option>
-                <option value="Frontend">Frontend</option>
-                <option value="Backend">Backend</option>
-              </select>
-              <br />
+              <div className="select">
+                <select value={tipo} onChange={handleTipo}>
+                  <option value="">Tipo de Desarrollador</option>
+                  <option value="Frontend">Frontend</option>
+                  <option value="Backend">Backend</option>
+                </select>
+              </div>
               <button type="submit" id="btn-registrarDev">Registrarse</button>
             </form>
           </div>

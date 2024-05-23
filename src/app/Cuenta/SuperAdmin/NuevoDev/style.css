@@ -4,10 +4,9 @@
 .bodyNuevoDev {
     display: flex;
     flex-direction: column;
-    height: 90vh;
-    width: 93vw;
     align-items: center;
-
+    width: 100%;
+    height: 90vh;
 }
 
 .container-nuevodev {
@@ -15,14 +14,12 @@
     border-radius: 30px;
     align-items: center;
     justify-content: center;
-    position: relative;
     overflow: hidden;
-    width: 85%;
-    height: 80vh;
-    margin-top: 5%;
+    width: 70%;
+    height: 95%;
+    margin-top: 3%;
     max-width: 100%;
-    min-height: 480px;
-    position: relative;
+    min-height: 500px;
     display: flex;
     z-index: 100;
 }
@@ -41,7 +38,7 @@
     /* Elimina el margen derecho del último campo de entrada de los apellidos */
 }
 
-.container-nuevodev {
+.container-nuevodev .NuevoDev{
     width: 40%;
     align-items: center;
     justify-content: center;
@@ -53,12 +50,12 @@
     margin-left: 20%;
 }
 
-.apellidos-Container {
+.apellidos_Container {
     display: flex;
     /* Hace que los elementos hijos se muestren en línea */
 }
 
-.apellidos-Container #apmat,
+.apellidos_Container #apmat,
 #appat {
     flex: 1;
     /* Permite que los campos de entrada de los apellidos se expandan para llenar el espacio disponible */
@@ -66,7 +63,7 @@
     /* Ajusta el margen entre los campos de entrada de los apellidos */
 }
 
-.apellidos-Container #apmat,
+.apellidos_Container #apmat,
 #appat:last-child {
     margin-right: -6.25%;
     /* Elimina el margen derecho del último campo de entrada de los apellidos */
@@ -83,7 +80,7 @@
 
 }
 
-.container-nuevodev #titulo-admin {
+.container-nuevodev #titulo-dev {
     width: 50%;
     font-size: 25px;
     font-weight: 800;
@@ -94,40 +91,41 @@
     margin-top: 7%;
 }
 
-.container-nuevodev .datosDev {
+.container-nuevodev .NuevoDev .datosDev {
     background-color: #FFF;
     border: none;
     margin: 8px 0;
-    padding: 10px;
-    font-size: 13px;
+    padding: 8.5px;
+    font-size: 15px;
     border-radius: 8px;
     width: 100%;
     outline: auto;
-    outline-color: var(--background-color);
-    color: var(--text-color-3);
+    outline-color: #FFF;
+    color: #949494;
     transition: outline 0.5s ease;
+    font-family: "Baloo Thambi 2", system-ui;
 }
 
-.container-nuevodev .datosDev:hover {
+.container-nuevodev .NuevoDev .datosDev:hover {
     /* Cambia el color del texto al pasar el mouse */
     outline-color: #FF9F49;
     border-color: #ff9f49;
     /* Agrega un borde naranja al pasar el mouse */
 }
 
-.container-nuevodev .datosDev::placeholder {
-    color: var(--text-color-3);
+.container-nuevodev .NuevoDev .datosDev::placeholder {
+    color: #949494;
     /* Color del placeholder predeterminado */
     transition: color 0.5s ease;
     /* Transición suave */
 }
 
-.container-nuevodev .datosDev:hover::placeholder {
+.container-nuevodev .NuevoDev .datosDev:hover::placeholder {
     color: #ff9f49;
     /* Cambia el color del placeholder al pasar el mouse */
 }
 
-.container-nuevodev #btn-registrarUsuario {
+.container-nuevodev #btn-registrarDev {
     background-color: #FF9F49;
     color: #fff;
     font-size: 15px;
@@ -142,12 +140,64 @@
     margin-left: 25%;
 }
 
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    outline: 0;
+    box-shadow: none;
+    border: 0 !important;
+    background: #FFF;
+    background-image: none;
+    flex: 1;
+    padding: 0 .3em;
+    color: #949494;
+    cursor: pointer;
+    font-size: .9em;
+    font-family: "Baloo Thambi 2", system-ui;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+.select {
+    margin-top: 3%;
+    position: relative;
+    display: flex;
+    width: 19em;
+    height: 2.8em;
+    line-height: 3;
+    background: #FFF;
+    overflow: hidden;
+    border-radius: 10px;
+    margin: 0 auto;
+    color: #3C3C3C;
+}
+
+.select::after {
+    content: '\25BC';
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0 1em;
+    background: #FFF;
+    cursor: pointer;
+    pointer-events: none;
+    transition: .25s all ease;
+}
+
+.select:hover::after {
+    color: #1E1E1E;
+}
+
 .imagen-nuevoDev {
     width: 60%;
     height: 80vh;
     margin: 0;
     padding: 0;
-    background-image: var(--background-image-1);
+    background-image: url("https://i.postimg.cc/c1cM2bkP/Imagen-registro-Admin.png");
     background-position: right;
     background-size: 98vh;
     background-repeat: no-repeat;

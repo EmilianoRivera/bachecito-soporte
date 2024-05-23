@@ -7,7 +7,7 @@ function MisTickets() {
   const [userData, setUserData] = useState({});
   const [userTickets, setUserTickets] = useState([]);
   const router = useRouter();
-  const [selectedTicket, setSelectedTicket] = useState(null); 
+  const [selectedTicket, setSelectedTicket] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const openModal = (ticket) => {
     setSelectedTicket(ticket);
@@ -59,96 +59,101 @@ function MisTickets() {
   function formatTimestamp(timestamp) {
     // Verifica si timestamp es un objeto con propiedades seconds y nanoseconds
     if (timestamp && timestamp.seconds && timestamp.nanoseconds) {
-        // Crea una nueva instancia de Date utilizando los segundos del timestamp
-        const dateObject = new Date(timestamp.seconds * 1000); // Multiplica por 1000 para convertir segundos a milisegundos
-        // Formatea la fecha como una cadena legible
-        return dateObject.toLocaleDateString(); // Obtener solo la fecha sin la hora
+      // Crea una nueva instancia de Date utilizando los segundos del timestamp
+      const dateObject = new Date(timestamp.seconds * 1000); // Multiplica por 1000 para convertir segundos a milisegundos
+      // Formatea la fecha como una cadena legible
+      return dateObject.toLocaleDateString(); // Obtener solo la fecha sin la hora
     } else {
-        // Si no se puede convertir, devuelve un mensaje de error
-        return "No se puede convertir el timestamp";
+      // Si no se puede convertir, devuelve un mensaje de error
+      return "No se puede convertir el timestamp";
     }
-}
+  }
 
-const cambiarEstado = async (folio, userData) => {
-  try {
-    const ticketQuery = query(
-      collection(db, "tickets"),
-      where("folio", "==", folio)
-    );
-    const ticketQuerySnapshot = await getDocs(ticketQuery);
-    const ticketDocRef = ticketQuerySnapshot.docs[0].ref;
-    await updateDoc(ticketDocRef, { 
-      estado: 'Resuelto', 
-      fechaResuelto: new Date(),
-      resueltoPor: userData.uid
-     });
-    // Actualizar localmente el estado del ticket
-    const updatedTickets = userTickets.map(ticket =>
-      ticket.folio === folio ? { ...ticket, estado: 'Resuelto' } : ticket
-    );
-    setUserTickets(updatedTickets);
-    closeModal(); 
+  const cambiarEstado = async (folio, userData) => {
+    try {
+      const ticketQuery = query(
+        collection(db, "tickets"),
+        where("folio", "==", folio)
+      );
+      const ticketQuerySnapshot = await getDocs(ticketQuery);
+      const ticketDocRef = ticketQuerySnapshot.docs[0].ref;
+      await updateDoc(ticketDocRef, {
+        estado: 'Resuelto',
+        fechaResuelto: new Date(),
+        resueltoPor: userData.uid
+      });
+      // Actualizar localmente el estado del ticket
+      const updatedTickets = userTickets.map(ticket =>
+        ticket.folio === folio ? { ...ticket, estado: 'Resuelto' } : ticket
+      );
+      setUserTickets(updatedTickets);
+      closeModal();
 
-    // Enviar notificación a BACHECITOWEB (BW) cuando un ticket se marque como resuelto
-    const res = await fetch('http://localhost:3000/api/Noti', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        ticketFolio: folio
-      })
-    });
+      // Enviar notificación a BACHECITOWEB (BW) cuando un ticket se marque como resuelto
+      const res = await fetch('http://localhost:3000/api/Noti', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ticketFolio: folio
+        })
+      });
 
-    if (!res.ok) {
-      throw new Error('Error al enviar la notificación a BW');
+      if (!res.ok) {
+        throw new Error('Error al enviar la notificación a BW');
+      }
+
+    } catch (error) {
+      console.error('Error al cambiar el estado del ticket:', error);
     }
-
-  } catch (error) {
-    console.error('Error al cambiar el estado del ticket:', error);
-  }};
+  };
   return (
-    <div className="ticket-container">
-    <div className="ticket-header">
-      <p className="ticket-title">TUS TICKETS</p>
-    </div>
-    <table>
-    <thead>
-                    <tr className='sticky-top'>
-                    <th>Folio</th>
+    <div className='body-tickets-dev'>
+      <div className="ticket-container">
 
-                        <th>Area</th>
-                        <th>Descripcion</th>
-                        <th>Fecha de envio</th>
-                        <th>Estado</th>
-                        <th>Prioridad</th>
-                        <th>Ruta</th>
-                    </tr>
-                </thead>
-      <tbody>
-        {userTickets.map((ticketsito, index) => (
-          <tr key={index} className="ticket-body">
-            <td className="folio">{ticketsito.folio}</td>
-            <td>{ticketsito.area}</td>
-            <td>{ticketsito.descripcionProblema}</td>
-            <td>{formatTimestamp(ticketsito.fechaDeEnvio)}</td>    
-            <td>{ticketsito.estado}</td>      
-            <td>{ticketsito.priori}</td>
-            <td>{ticketsito.rutitaD}</td>
-            <td>
-            </td>
-            <td>
-              <button className="detalles" onClick={() => openModal(ticketsito)}>Gestionar</button>
-            </td>           
-          </tr>
-        ))}
-      </tbody>
-    </table>
-    {showModal && (
+        <div className="ticket-header">
+          <p className="ticket-title">TUS TICKETS 🏷️</p>
+        </div>
+
+        <div className='container-table'>
+          <table>
+            <thead>
+              <tr className='sticky-top'>
+                <th>Folio</th>
+                <th>Área</th>
+                <th>Descripción</th>
+                <th>Fecha de envío</th>
+                <th>Estado</th>
+                <th>Prioridad</th>
+                <th>Ruta</th>
+              </tr>
+            </thead>
+            <tbody>
+              {userTickets.map((ticketsito, index) => (
+                <tr key={index} className="ticket-body">
+                  <td className="folio">{ticketsito.folio}</td>
+                  <td>{ticketsito.area}</td>
+                  <td>{ticketsito.descripcionProblema}</td>
+                  <td>{formatTimestamp(ticketsito.fechaDeEnvio)}</td>
+                  <td>{ticketsito.estado}</td>
+                  <td>{ticketsito.priori}</td>
+                  <td>{ticketsito.rutitaD}</td>
+                  <td>
+                    <button className="detalles" onClick={() => openModal(ticketsito)}>Gestionar</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {showModal && (
         <div className="modal">
           <div className="modal-content">
             <span className="close" onClick={closeModal}>&times;</span>
-            <p>Detalles del ticket</p>
+            <p id='titulin'>Detalles del ticket 📑</p>
             <p>Fecha de Envio: {formatTimestamp(selectedTicket.fechaDeEnvio)}</p>
             <p>Prioridad: {selectedTicket.priori}</p>
             <p>Folio: {selectedTicket.folio}</p>
@@ -161,15 +166,16 @@ const cambiarEstado = async (folio, userData) => {
             <p>Ruta: {selectedTicket.rutitaD}</p>
             <p>Descripción: {selectedTicket.descripcionProblema}</p>
             <div className="fotografía">
-                <img src={selectedTicket.url} alt={"FOTO"} style={{ width: '100%', maxHeight: '100%' }} />
-        </div>  
-        {selectedTicket.estado !== 'Resuelto' && (
-        <button onClick={() => cambiarEstado(selectedTicket.folio, userData)}>Resuelto</button>
-      )}
+              <img src={selectedTicket.url} alt={"FOTO"} style={{ width: '100%', maxHeight: '100%' }} />
+            </div>
+            {selectedTicket.estado !== 'Resuelto' && (
+              <button onClick={() => cambiarEstado(selectedTicket.folio, userData)}>Resuelto</button>
+            )}
           </div>
         </div>
       )}
-  </div>
+    </div>
+
   );
 }
 

@@ -61,6 +61,9 @@ function GestionDevs() {
   return (
     <div className="bodyGestionDevs">
       <div className="containerGestionDevs">
+
+        <h1>Gestión de Desarrolladores 📠</h1>
+
         <table className="tableGestionDevs">
           <thead>
             <tr className="table-header">
