@@ -78,7 +78,7 @@ function NuevoDev() {
       <div className="container-nuevodev">
         <div className="NuevoDev">
 
-          <h1>Nuevo Desarrollador</h1>
+          <h2>Nuevo Desarrollador</h2>
 
           <div className="formularioNuevoDev">
             <form onSubmit={handleRegistroDev}>

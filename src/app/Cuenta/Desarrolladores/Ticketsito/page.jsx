@@ -13,6 +13,8 @@ import {
 } from "firebase/firestore";
 
 function Tickets() {
+  const [filterPriority, setFilterPriority] = useState('');
+  const [searchFolio, setSearchFolio] = useState('');
   const [tick, setTick] = useState([]);
   const [userData, setUserData] = useState({});
   const router = useRouter();
@@ -185,47 +187,75 @@ useEffect(() => {
     console.error("Error al guardar el folio en la base de datos:", error);
   }
 };
+const handlePriorityFilter = (e) => {
+  setFilterPriority(e.target.value);
+};
 
+const filteredTickets = tick.filter(ticketsito => {
+  // Verificar si se ha ingresado un valor en el campo de búsqueda de folio
+  if (searchFolio) {
+    // Filtrar por folio si hay un valor de búsqueda
+    return ticketsito.folio.includes(searchFolio);
+  } else {
+    // Si no hay valor de búsqueda, aplicar los filtros de tipo y prioridad
+    return (userData.tipo === "Backend" && ticketsito.area === "Backend") || 
+           (userData.tipo === "Frontend" && ticketsito.area === "Frontend") && 
+           (!filterPriority || ticketsito.priori === filterPriority);
+  }
+});
 
 return (
   <div className="ticket-container">
     <div className="ticket-header">
       <p className="ticket-title">Tickets de Soporte</p>
     </div>
+        <select onChange={(e) => setFilterPriority(e.target.value)} value={filterPriority}>
+            <option value="">Todas las Prioridades</option>
+            <option value="ALTA">ALTA</option>
+            <option value="MEDIA">MEDIA</option>
+            <option value="BAJA">BAJA</option>
+          </select>
+          <input
+            type="text"
+            placeholder="Buscar por folio"
+            value={searchFolio}
+            onChange={(e) => setSearchFolio(e.target.value)}
+          />
     <table>
-    <thead>
-                    <tr className='sticky-top'>
-                    <th>Folio</th>
-
-                        <th>Area</th>
-                        <th>Descripcion</th>
-                        <th>Fecha de envio</th>
-                        <th>Estado</th>
-                        <th>Prioridad</th>
-                        <th>Ruta</th>
-                    </tr>
-                </thead>
+      <thead>
+        <tr className='sticky-top'>
+          <th>Folio</th>
+          <th>Area</th>
+          <th>Descripcion</th>
+          <th>Fecha de envio</th>
+          <th>Estado</th>
+          <th>Prioridad</th>
+          <th>Ruta</th>
+        </tr>
+      </thead>
       <tbody>
-        {tick.map((ticketsito, index) => (
-          <tr key={index} className="ticket-body">
-            <td className="folio">{ticketsito.folio}</td>
-            <td>{ticketsito.area}</td>
-            <td>{ticketsito.descripcionProblema}</td>
-            <td>{formatTimestamp(ticketsito.fechaDeEnvio)}</td>    
-            <td>{ticketsito.estado}</td>      
-            <td>{ticketsito.priori}</td>
-            <td>{ticketsito.rutitaD}</td>
-            <td>
-            </td>
-            <td>
-              <button className="detalles" onClick={() => openModal(ticketsito)}>Detalles</button>
-            </td>
-            <td>
-              <button onClick={() => guardarTicketBD(ticketsito.folio, userData, ticketsito)}>Asignar</button>
-            </td>
-           
-          </tr>
-        ))}
+      {filteredTickets.length === 0 ? (
+    <tr>
+      <td colSpan="7">No existen tickets que coincidan con la búsqueda</td>
+    </tr>
+  ) : (
+    filteredTickets.map((ticketsito, index) => (  <tr key={index} className="ticket-body">
+              <td className="folio">{ticketsito.folio}</td>
+              <td>{ticketsito.area}</td>
+              <td>{ticketsito.descripcionProblema}</td>
+              <td>{formatTimestamp(ticketsito.fechaDeEnvio)}</td>
+              <td>{ticketsito.estado}</td>
+              <td>{ticketsito.priori}</td>
+              <td>{ticketsito.rutitaD}</td>
+              <td>
+                <button className="detalles" onClick={() => openModal(ticketsito)}>Detalles</button>
+              </td>
+              <td>
+                <button onClick={() => guardarTicketBD(ticketsito.folio, userData, ticketsito)}>Asignar</button>
+              </td>
+            </tr>
+          ))
+        )}
       </tbody>
     </table>
     {showModal && (

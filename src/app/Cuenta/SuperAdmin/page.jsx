@@ -31,8 +31,6 @@ function SuperAdmin() {
         <br/><br/>
 
         <div className="opcionesSuperAdmin">
-          <a href="/Cuenta/SuperAdmin/GestionDevs"> GESTION DEVS </a>
-          <br></br>
           <a href="/Cuenta/SuperAdmin/NuevoDev"> NUEVOS DEVS </a>
           <br></br>
           <a href="/Cuenta/SuperAdmin/GestionTickets"> GESTION TICKETS </a>
