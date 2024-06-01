@@ -33,8 +33,8 @@ function SuperAdmin() {
         <div className="opcionesSuperAdmin">
           <a href="/Cuenta/SuperAdmin/NuevoDev"> NUEVOS DEVS </a>
           <br></br>
-          <a href="/Cuenta/SuperAdmin/GestionDevs"> GESTIÓN DEVS </a>
-          <br></br>
+    {/*       <a href="/Cuenta/SuperAdmin/GestionDevs"> GESTIÓN DEVS </a>
+          <br></br> */}
           <a href="/Cuenta/SuperAdmin/GestionTickets"> GESTIÓN TICKETS </a>
           <br></br>
           <a onClick={CerrarSesion}> CERRAR SESIÓN </a>

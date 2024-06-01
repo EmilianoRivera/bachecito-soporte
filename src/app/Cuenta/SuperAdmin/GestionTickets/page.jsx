@@ -309,6 +309,10 @@ function Gtickets() {
   };
 
   const filtrarTickets = (ticket) => {
+    // Convertir el filtro de búsqueda y los campos de los tickets a mayúsculas
+    const filtroMayuscula = filtroBusqueda.toUpperCase();
+    const folioMayuscula = ticket.folio.toUpperCase();
+   const rutaMayuscula = ticket.rutitaD ? ticket.rutitaD.toUpperCase() : ''
     // Aplicar filtro por prioridad
     if (filtroPrioridad && ticket.priori !== filtroPrioridad) {
       return false;
@@ -325,8 +329,8 @@ function Gtickets() {
     if (
       filtroBusqueda &&
       !(
-        ticket.folio.includes(filtroBusqueda) ||
-        ticket.rutitaD.includes(filtroBusqueda)
+        folioMayuscula.includes(filtroMayuscula)
+        ||rutaMayuscula.includes(filtroMayuscula)
       )
     ) {
       return false;
