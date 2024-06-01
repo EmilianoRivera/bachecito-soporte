@@ -1,46 +1,168 @@
-body {
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@400..800&family=Nunito:ital,wght@0,200..1000;1,200..1000&display =intercambiar');
+
+.body-tickets-dev {
     background-color: white;
-    font-family: 'Poppins', sans-serif;
-
+    font-family: "Baloo Thambi 2", system-ui;
 }
+
+.filters{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  outline: 0;
+  box-shadow: none;
+  border: 0 !important;
+  background: #F1F1F1;
+  background-image: none;
+  flex: 1;
+  padding: 0 .3em;
+  color: #6F6F6F;
+  cursor: pointer;
+  font-size: .9em;
+  font-family: "Baloo Thambi 2", system-ui;
+}
+
+select::-ms-expand {
+  display: none;
+  
+}
+
+.select {
+  position: relative;
+  display: flex;
+  width: 15em;
+  height: 2.8em;
+  line-height: 3;
+  background: #D1D1D1;
+  overflow: hidden;
+  border-radius: 15px;
+  color: #1E1E1E;
+}
+
+.select::after {
+  content: '\25BC';
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 1em;
+  background: #D1D1D1;
+  cursor: pointer;
+  pointer-events: none;
+  transition: .25s all ease;
+}
+
+.select:hover::after {
+  color: #1E1E1E;
+}
+
+.buscador {
+  padding: 10px;
+  width: 17em;
+  height: 1.65em;
+  transition: .2s;
+  outline: none;
+  border: none;
+  background-color: #F1F1F1;
+  color: #6F6F6F;  
+  border-radius: 15px;
+  font-family: "Baloo Thambi 2", system-ui;
+  font-size: 15px;
+}
+
 /* Estilos para el primer botón */
-td button {
+.detalles {
   padding: 10px 20px;
-  background-color: #4CAF50; /* Color de fondo */
+  background-color: #FF9F49; /* Color de fondo */
   color: white; /* Color del texto */
   border: none; /* Sin borde */
-  border-radius: 5px; /* Borde redondeado */
+  border-radius: 10px; /* Borde redondeado */
   cursor: pointer; /* Cursor al pasar sobre el botón */
+  transition: .5s;
+  font-family: "Baloo Thambi 2", system-ui;
+  font-size: 15px;
 }
 
-/* Cambia el color de fondo cuando el mouse está sobre el botón */
 td button:hover {
-  background-color: #29802d;
-}
-/* Estilos para el segundo botón */
-td .detalles {
-  padding: 10px 20px;
-  background-color: #007bff; /* Color de fondo */
-  color: white; /* Color del texto */
-  border: none; /* Sin borde */
-  border-radius: 5px; /* Borde redondeado */
-  cursor: pointer; /* Cursor al pasar sobre el botón */
+  background-color: #949494;
 }
 
-/* Cambia el color de fondo cuando el mouse está sobre el botón */
-td .detalles:hover {
-  background-color: #0056b3;
+.ticket-container {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 5%;
+  border-radius: 15px;
+  padding: 20px;
+  overflow-x: auto; /* Agregamos un desbordamiento horizontal para la tabla */
+  background-color: rgba(255, 255, 255, 0.3); /* Fondo semitransparente */
+  backdrop-filter: blur(10px); /* Aplicar el efecto borroso */
+  -webkit-backdrop-filter: blur(10px); /* Compatibilidad con navegadores webkit */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+.ticket-header {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #FF9F49;
+}
+
+.ticket-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.ticket-body {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+/* Estilos para la tabla */
+table {
+  width: 100%; /* Ahora la tabla ocupará todo el ancho del contenedor */
+  text-align: center;
+}
+
+th{
+  padding: 8px;
+  background-color: #D1D1D1;
+  border-radius: 13px;
+  color: #1E1E1E;
+}
+
+td {
+  padding: 8px;
+  border-radius: 13px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+  border-radius: 13px
+}
+
+/*MODAL*/
+
 .modal {
   display: block; /* Mostrar el modal */
   position: fixed; /* Posición fija */
-  z-index: 1000; /* Z-index alto para estar encima del resto del contenido */
+  z-index: 100; /* Z-index alto para estar encima del resto del contenido */
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
   overflow: auto; /* Permitir desplazamiento si el contenido es demasiado grande */
+  align-items: center;
+  text-align: center;
 }
 
 /* Contenido del modal */
@@ -65,32 +187,15 @@ td .detalles:hover {
   cursor: pointer;
 }
 
-.ticket-container {
-  width: 80%;
-  margin: 0 auto;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  padding: 20px;
-  background-color: #f9f9f9;
-  overflow-x: auto; /* Agregamos un desbordamiento horizontal para la tabla */
-}
-
-.ticket-header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.ticket-title {
-  font-size: 24px;
+.modal .modal-content p{
   font-weight: bold;
+  color: #949494;
 }
 
-.ticket-body {
-  margin-bottom: 20px;
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #fff;
+#titulin{
+  color: #FF9F49;
+  font-weight: bold;
+  font-size: 20px
 }
 
 .fotografía {
@@ -103,12 +208,31 @@ td .detalles:hover {
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
 }
 
-/* Estilos para la tabla */
-table {
-  width: 100%; /* Ahora la tabla ocupará todo el ancho del contenedor */
-  border-collapse: collapse;
+#reasignar-btn{
+  background-color: #A4DF77; /* Color de fondo */
+  color: white; /* Color del texto */
+  border: none; /* Sin borde */
+  border-radius: 8px; /* Borde redondeado */
+  cursor: pointer; /* Cursor al pasar sobre el botón */
+  transition: .5s;
+  font-family: "Baloo Thambi 2", system-ui;
+  padding: 5px;
 }
 
-td {
-  padding: 8px;
+
+::-webkit-scrollbar {
+  width: 10px; /* Ancho de la barra de desplazamiento */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Color del fondo de la barra de desplazamiento */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d1d1d1; /* Color de la barra de desplazamiento */
+  border-radius: 5px; /* Radio de la esquina de la barra de desplazamiento */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #c9c9c9; /* Color de la barra de desplazamiento al pasar el mouse sobre ella */
 }
