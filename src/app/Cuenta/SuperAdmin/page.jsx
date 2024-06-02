@@ -39,6 +39,20 @@ function SuperAdmin() {
           <br></br>
           <a onClick={CerrarSesion}> CERRAR SESIÓN </a>
         </div>
+
+        <div class="burbujas">
+          <div class="burbuja"></div>
+          <div class="burbuja"></div>
+          <div class="burbuja"></div>
+          <div class="burbuja"></div>
+          <div class="burbuja"></div>
+          <div class="burbuja"></div>
+          <div class="burbuja"></div>
+          <div class="burbuja"></div>
+          <div class="burbuja"></div>
+          <div class="burbuja"></div>
+        </div>
+        
       </div>
 
     </div>

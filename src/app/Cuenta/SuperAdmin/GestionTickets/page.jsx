@@ -312,7 +312,7 @@ function Gtickets() {
     // Convertir el filtro de búsqueda y los campos de los tickets a mayúsculas
     const filtroMayuscula = filtroBusqueda.toUpperCase();
     const folioMayuscula = ticket.folio.toUpperCase();
-   const rutaMayuscula = ticket.rutitaD ? ticket.rutitaD.toUpperCase() : ''
+    const rutaMayuscula = ticket.rutitaD ? ticket.rutitaD.toUpperCase() : ''
     // Aplicar filtro por prioridad
     if (filtroPrioridad && ticket.priori !== filtroPrioridad) {
       return false;
@@ -330,7 +330,7 @@ function Gtickets() {
       filtroBusqueda &&
       !(
         folioMayuscula.includes(filtroMayuscula)
-        ||rutaMayuscula.includes(filtroMayuscula)
+        || rutaMayuscula.includes(filtroMayuscula)
       )
     ) {
       return false;
@@ -413,14 +413,14 @@ function Gtickets() {
         <table className="ticket-table">
           <thead>
             <tr className="sticky-top">
-              <th>Folio</th>
-              <th>Área</th>
-              <th>Fecha de envío</th>
-              <th>Estado</th>
-              <th>Prioridad</th>
-              <th>Ruta</th>
-              <th>Detalles</th>
-              <th>Historial</th>
+              <th className='.th'>Folio</th>
+              <th className='.th'>Área</th>
+              <th className='.th'>Fecha de envío</th>
+              <th className='.th'>Estado</th>
+              <th className='.th'>Prioridad</th>
+              <th className='.th'>Ruta</th>
+              <th className='.th'>Detalles</th>
+              <th className='.th'>Historial</th>
             </tr>
           </thead>
           <tbody>
@@ -429,16 +429,16 @@ function Gtickets() {
               .filter(filtrarTickets)
               .map((ticketsito, index) => (
                 <tr key={index} className="ticket-body">
-                  <td className="folio">{ticketsito.folio}</td>
-                  <td>{ticketsito.area}</td>
-                  <td>{formatTimestamp(ticketsito.fechaDeEnvio)}</td>
-                  <td>{ticketsito.estado}</td>
-                  <td>{ticketsito.priori}</td>
-                  <td>{ticketsito.rutitaD}</td>
-                  <td>
+                  <td className="td">{ticketsito.folio}</td>
+                  <td className="td">{ticketsito.area}</td>
+                  <td className="td">{formatTimestamp(ticketsito.fechaDeEnvio)}</td>
+                  <td className="td">{ticketsito.estado}</td>
+                  <td className="td">{ticketsito.priori}</td>
+                  <td className="td">{ticketsito.rutitaD}</td>
+                  <td className="td">
                     <button className="ticket-button-detalles" onClick={() => openModal(ticketsito)}>Detalles</button>
                   </td>
-                  <td>
+                  <td className="td">
                     <button className="ticket-button-historial" onClick={() => openModal2(ticketsito)}>Historial</button>
                   </td>
                 </tr>
@@ -449,39 +449,102 @@ function Gtickets() {
 
       {showModal && (
         <div className="modal">
+          <div className='titul'>
+            <p id="titulin1">Detalles del ticket 📑</p>
+          </div>
           <div className="modal-content">
             <span className="close" onClick={closeModal}>&times;</span>
-            <p id="titulin1">Detalles del ticket 📑</p>
-            <p>Fecha de Envío: {formatTimestamp(selectedTicket.fechaDeEnvio)}</p>
-            <p>Prioridad: {selectedTicket.priori}</p>
-            <p>Folio: {selectedTicket.folio}</p>
-            <p>Área: {selectedTicket.area}</p>
-            <p>Administrador: {selectedTicket.nombre}</p>
-            <p>Correo: {selectedTicket.correoA}</p>
-            <p>Navegador: {selectedTicket.navegador}</p>
-            <p>Sistema Operativo: {selectedTicket.sistemaOperativo}</p>
-            <p>Tipo de error: {selectedTicket.errorSeleccionado}</p>
-            <p>Ruta: {selectedTicket.rutitaD}</p>
-            <p>Descripción: {selectedTicket.descripcionProblema}</p>
-            <div className="fotografía">
-              <img src={selectedTicket.url} alt={"FOTO"} style={{ width: '100%', maxHeight: '100%' }} />
-            </div>
+
+            <table className='table-content'>
+              <tr>
+                <td className='tdsito1'><p className='psito'>Fecha de Envío: </p></td>
+                <td className='tdsito2'><p className='p'>{formatTimestamp(selectedTicket.fechaDeEnvio)}</p></td>
+              </tr>
+              <tr>
+                <td className='tdsito1'><p className='psito'>Prioridad: </p></td>
+                <td className='tdsito2'><p className='p'>{selectedTicket.priori}</p></td>
+              </tr>
+              <tr>
+                <td className='tdsito1'><p className='psito'>Folio: </p></td>
+                <td className='tdsito2'><p className='p'>{selectedTicket.folio}</p></td>
+              </tr>
+              <tr>
+                <td className='tdsito1'><p className='psito'>Área: </p></td>
+                <td className='tdsito2'><p className='p'>{selectedTicket.area}</p></td>
+              </tr>
+              <tr>
+                <td className='tdsito1'><p className='psito'>Administrador: </p></td>
+                <td className='tdsito2'><p className='p'>{selectedTicket.nombre}</p></td>
+              </tr>
+              <tr>
+                <td className='tdsito1'><p className='psito'>Correo: </p></td>
+                <td className='tdsito2'><p className='p'>{selectedTicket.correoA}</p></td>
+              </tr>
+              <tr>
+                <td className='tdsito1'><p className='psito'>Navegador: </p></td>
+                <td className='tdsito2'><p className='p'>{selectedTicket.navegador}</p></td>
+              </tr>
+              <tr>
+                <td className='tdsito1'><p className='psito'>Sistema Operativo: </p></td>
+                <td className='tdsito2'><p className='p'>{selectedTicket.sistemaOperativo}</p></td>
+              </tr>
+              <tr>
+                <td className='tdsito1'><p className='psito'>Tipo de error: </p></td>
+                <td className='tdsito2'><p className='p'>{selectedTicket.errorSeleccionado}</p></td>
+              </tr>
+              <tr>
+                <td className='tdsito1'><p className='psito'>Ruta: </p></td>
+                <td className='tdsito2'><p className='p'>{selectedTicket.rutitaD}</p></td>
+              </tr>
+              <tr>
+                <td className='tdsito1'><p className='psito'>Descripción: </p></td>
+                <td className='tdsito2'><p className='p'>{selectedTicket.descripcionProblema}</p></td>
+              </tr>
+              <tr>
+                <td className='tdsito1'><p className='psito'>Fotografía: </p></td>
+                <td className='tdsito2'>
+                  <div className="fotografía">
+                    <img src={selectedTicket.url} alt={"FOTO"} style={{ width: '100%', maxHeight: '100%' }} />
+                  </div>
+                </td>
+              </tr>
+            </table>
           </div>
         </div>
       )}
       {showModal2 && (
         <div className="modal">
+          <div className='titul'>
+            <p id="titulin2">Historial del ticket 🕗</p>
+          </div>
           <div className="modal-content">
             <span className="close" onClick={closeModal2}>&times;</span>
-            <p id="titulin2">Historial del ticket 🕗</p>
 
             {selectedTicket2.estado === "Sin asignar" && (
               <div className='datos-sinasignar'>
-                <p>Prioridad: {selectedTicket2.priori}</p>
-                <p>Área: {selectedTicket2.area}</p>
-                <p>Enviado por: {selectedTicket2.nombre} - {selectedTicket2.correoA}</p>
-                <p>Fecha de Envío: {formatTimestamp(selectedTicket2.fechaDeEnvio)}</p>
-                <p>Hora de Envío: {hora(selectedTicket2.fechaDeEnvio)}</p>
+                <table className='table-content'>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Prioridad: </p></td>
+                    <td className='tdsito2'><p className='p'>{selectedTicket2.priori}</p></td>
+                  </tr>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Área: </p></td>
+                    <td className='tdsito2'><p className='p'>{selectedTicket2.area}</p></td>
+                  </tr>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Enviado por: </p></td>
+                    <td className='tdsito2'><p className='p'>{selectedTicket2.nombre} - {selectedTicket2.correoA}</p></td>
+                  </tr>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Fecha de Envío: </p></td>
+                    <td className='tdsito2'><p className='p'>{formatTimestamp(selectedTicket2.fechaDeEnvio)}</p></td>
+                  </tr>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Hora de Envío: </p></td>
+                    <td className='tdsito2'><p className='p'>{hora(selectedTicket2.fechaDeEnvio)}</p></td>
+                  </tr>
+                </table>
+                <br />
                 <button className="ticket-button-gestionar" onClick={() => openModal3(selectedTicket2)}>Gestionar</button>
               </div>
             )}
@@ -537,28 +600,29 @@ function Gtickets() {
 
       {showModal3 && (
         <div className="modal">
-          <div className="modal-content">
+          <div className="modal-content-">
             <span className="close" onClick={closeModal3}>&times;</span>
             <p id="titulin3">Gestionar</p>
-            {Array.isArray(userData) &&
-              userData.map((user, index) => (
-                <tr key={index} className="ticket-body">
-                  <td>{user.nombre}</td>
-                  <td>{user.tipo}</td>
-                  <td>{user.correo}</td>
-                  <td>
-                    <select>
-                      {user.foliosGuardados.map((folio, index) => (
-                        <option key={index} onClick={() => openModal(folio)}>{folio}</option>
-                      ))}
-                    </select>
-                  </td>
-                  <td>
-                    <button id="reasignar-btn" onClick={() => Asignar(selectedTicket.folio, user, selectedTicket)}>Asignar</button>
-                  </td>
-                </tr>
-              ))}
-
+            <div className='tablita'>
+              {Array.isArray(userData) &&
+                userData.map((user, index) => (
+                  <tr key={index} className="ticket-body">
+                    <td>{user.nombre}</td>
+                    <td>{user.tipo}</td>
+                    <td>{user.correo}</td>
+                    <td>
+                      <select>
+                        {user.foliosGuardados.map((folio, index) => (
+                          <option key={index} onClick={() => openModal(folio)}>{folio}</option>
+                        ))}
+                      </select>
+                    </td>
+                    <td>
+                      <button id="reasignar-btn" onClick={() => Asignar(selectedTicket.folio, user, selectedTicket)}>Asignar</button>
+                    </td>
+                  </tr>
+                ))}
+            </div>
           </div>
         </div>
       )}

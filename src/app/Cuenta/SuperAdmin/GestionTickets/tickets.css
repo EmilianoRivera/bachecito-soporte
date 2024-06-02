@@ -2,13 +2,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@400..800&family=Nunito:ital,wght@0,200..1000;1,200..1000&display =intercambiar');
 
 .body_gest_tickets {
-    background-color: white;
-    font-family: "Baloo Thambi 2", system-ui;
+  background-color: white;
+  font-family: "Baloo Thambi 2", system-ui;
 }
 
-.filtros{
+.filtros {
   display: flex;
-  
+
 }
 
 select {
@@ -74,7 +74,7 @@ select::-ms-expand {
   margin-left: 2%;
   border: none;
   background-color: #F1F1F1;
-  color: #6F6F6F;  
+  color: #6F6F6F;
   border-radius: 15px;
   font-family: "Baloo Thambi 2", system-ui;
   font-size: 13px;
@@ -84,11 +84,16 @@ select::-ms-expand {
 /* Estilos para el primer botón */
 .ticket-button-detalles {
   padding: 10px 20px;
-  background-color: #FFD557; /* Color de fondo */
-  color: white; /* Color del texto */
-  border: none; /* Sin borde */
-  border-radius: 10px; /* Borde redondeado */
-  cursor: pointer; /* Cursor al pasar sobre el botón */
+  background-color: #FFD557;
+  /* Color de fondo */
+  color: white;
+  /* Color del texto */
+  border: none;
+  /* Sin borde */
+  border-radius: 10px;
+  /* Borde redondeado */
+  cursor: pointer;
+  /* Cursor al pasar sobre el botón */
   transition: .5s;
   font-family: "Baloo Thambi 2", system-ui;
 
@@ -96,24 +101,36 @@ select::-ms-expand {
 
 .ticket-button-historial {
   padding: 10px 20px;
-  background-color: #FF9F49; /* Color de fondo */
-  color: white; /* Color del texto */
-  border: none; /* Sin borde */
-  border-radius: 10px; /* Borde redondeado */
-  cursor: pointer; /* Cursor al pasar sobre el botón */
+  background-color: #FF9F49;
+  /* Color de fondo */
+  color: white;
+  /* Color del texto */
+  border: none;
+  /* Sin borde */
+  border-radius: 10px;
+  /* Borde redondeado */
+  cursor: pointer;
+  /* Cursor al pasar sobre el botón */
   transition: .5s;
   font-family: "Baloo Thambi 2", system-ui;
 }
 
-.ticket-button-gestionar{
+.ticket-button-gestionar {
   padding: 10px 20px;
-  background-color: #FF9F49; /* Color de fondo */
-  color: white; /* Color del texto */
-  border: none; /* Sin borde */
-  border-radius: 10px; /* Borde redondeado */
-  cursor: pointer; /* Cursor al pasar sobre el botón */
+  background-color: #FF9F49;
+  /* Color de fondo */
+  color: white;
+  /* Color del texto */
+  border: none;
+  /* Sin borde */
+  border-radius: 10px;
+  /* Borde redondeado */
+  cursor: pointer;
+  /* Cursor al pasar sobre el botón */
   transition: .5s;
   font-family: "Baloo Thambi 2", system-ui;
+  margin-left: 45%;
+  
 }
 
 td button:hover {
@@ -126,10 +143,14 @@ td button:hover {
   margin-top: 5%;
   border-radius: 15px;
   padding: 20px;
-  overflow-x: auto; /* Agregamos un desbordamiento horizontal para la tabla */
-  background-color: rgba(255, 255, 255, 0.3); /* Fondo semitransparente */
-  backdrop-filter: blur(10px); /* Aplicar el efecto borroso */
-  -webkit-backdrop-filter: blur(10px); /* Compatibilidad con navegadores webkit */
+  overflow-x: auto;
+  /* Agregamos un desbordamiento horizontal para la tabla */
+  background-color: rgba(255, 255, 255, 0.3);
+  /* Fondo semitransparente */
+  backdrop-filter: blur(10px);
+  /* Aplicar el efecto borroso */
+  -webkit-backdrop-filter: blur(10px);
+  /* Compatibilidad con navegadores webkit */
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -153,24 +174,25 @@ td button:hover {
 }
 
 /* Estilos para la tabla */
-table {
-  width: 100%; /* Ahora la tabla ocupará todo el ancho del contenedor */
+.ticket-table {
+  width: 100%;
+  /* Ahora la tabla ocupará todo el ancho del contenedor */
   text-align: center;
 }
 
-th{
+th {
   padding: 8px;
   background-color: #D1D1D1;
   border-radius: 13px;
   color: #1E1E1E;
 }
 
-td {
+.td {
   padding: 8px;
   border-radius: 13px;
 }
 
-tr:nth-child(even) {
+.sticky-top,.ticket-body:nth-child(even) {
   background-color: #f2f2f2;
   border-radius: 13px
 }
@@ -178,28 +200,91 @@ tr:nth-child(even) {
 /*MODAL*/
 
 .modal {
-  display: block; /* Mostrar el modal */
-  position: fixed; /* Posición fija */
-  z-index: 100; /* Z-index alto para estar encima del resto del contenido */
+  display: block;
+  /* Mostrar el modal */
+  position: fixed;
+  /* Posición fija */
+  z-index: 100;
+  /* Z-index alto para estar encima del resto del contenido */
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
-  overflow: auto; /* Permitir desplazamiento si el contenido es demasiado grande */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Fondo semitransparente */
+  overflow: auto;
+  /* Permitir desplazamiento si el contenido es demasiado grande */
+
+}
+
+.titul{
+  background-color: white;
+  margin: 0 auto;
+  margin-top: 5%;
+  margin-bottom: 1%;
+  /* Centrar vertical y horizontalmente */
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 0;
+  padding-bottom: 0;
+  border: 1px solid #888;
+  width: 60%;
+  /* Ancho máximo del contenido */
+  position: relative;
+  border-radius: 8px;
   text-align: center;
 }
 
 /* Contenido del modal */
 .modal-content {
   background-color: white;
-  margin: 10% auto; /* Centrar vertical y horizontalmente */
+  margin: auto;
+  /* Centrar vertical y horizontalmente */
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
-  max-width: 600px; /* Ancho máximo del contenido */
+  width: 60%;
+  /* Ancho máximo del contenido */
   position: relative;
   border-radius: 8px;
+}
+
+.modal-content- {
+  background-color: white;
+  margin: auto;
+  margin-top: 5%;
+  /* Centrar vertical y horizontalmente */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 60%;
+  /* Ancho máximo del contenido */
+  position: relative;
+  border-radius: 8px;
+  text-align: center;
+  justify-items: center;
+  justify-content: center;
+  align-content: center;
+  
+}
+
+.modal-content .table-content{
+  width: 70%;
+  margin: 0 auto;
+}
+.modal-content .table-content tr{
+  height: 2em;
+}
+
+.modal-content .table-content .tdsito1{
+  text-align: center;
+  width: 25%;
+  background-color: #FF9F49;
+  border-radius: 15px;
+}
+
+.modal-content .table-content .tdsito2{
+  padding-left: 15px;
+  background-color: #F1F1F1;
+  border-radius: 15px;
 }
 
 /* Botón para cerrar el modal */
@@ -212,12 +297,28 @@ tr:nth-child(even) {
   cursor: pointer;
 }
 
-.modal .modal-content p{
-  font-weight: bold;
-  color: #949494;
+.modal .modal-content p {
+  display: inline-block;
+  margin: 0;
+  padding: 8px;
 }
 
-#titulin1, #titulin2, #titulin3{
+.modal .modal-content .p {
+  color: #6F6F6F;
+}
+
+.modal .modal-content .psito {
+  font-weight: 500;
+  color: #FFF;
+}
+
+.modal .modal-content- .tablita{
+  margin-left: 20%;
+}
+
+#titulin1,
+#titulin2,
+#titulin3 {
   color: #FF9F49;
   font-weight: bold;
   font-size: 20px
@@ -233,12 +334,17 @@ tr:nth-child(even) {
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
 }
 
-#reasignar-btn{
-  background-color: #A4DF77; /* Color de fondo */
-  color: white; /* Color del texto */
-  border: none; /* Sin borde */
-  border-radius: 8px; /* Borde redondeado */
-  cursor: pointer; /* Cursor al pasar sobre el botón */
+#reasignar-btn {
+  background-color: #A4DF77;
+  /* Color de fondo */
+  color: white;
+  /* Color del texto */
+  border: none;
+  /* Sin borde */
+  border-radius: 8px;
+  /* Borde redondeado */
+  cursor: pointer;
+  /* Cursor al pasar sobre el botón */
   transition: .5s;
   font-family: "Baloo Thambi 2", system-ui;
   padding: 5px;
@@ -246,21 +352,23 @@ tr:nth-child(even) {
 
 
 ::-webkit-scrollbar {
-  width: 10px; /* Ancho de la barra de desplazamiento */
+  width: 10px;
+  /* Ancho de la barra de desplazamiento */
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; /* Color del fondo de la barra de desplazamiento */
+  background: #f1f1f1;
+  /* Color del fondo de la barra de desplazamiento */
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d1d1d1; /* Color de la barra de desplazamiento */
-  border-radius: 5px; /* Radio de la esquina de la barra de desplazamiento */
+  background: #d1d1d1;
+  /* Color de la barra de desplazamiento */
+  border-radius: 5px;
+  /* Radio de la esquina de la barra de desplazamiento */
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #c9c9c9; /* Color de la barra de desplazamiento al pasar el mouse sobre ella */
+  background: #c9c9c9;
+  /* Color de la barra de desplazamiento al pasar el mouse sobre ella */
 }
-
-
-

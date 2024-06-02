@@ -31,6 +31,20 @@ function Desarrolladores() {
           <br></br>
           <button onClick={CerrarSesion}> CERRAR SESIÓN </button>
         </div>
+
+        <div class="burbujas">
+          <div class="burbuja"></div>
+          <div class="burbuja"></div>
+          <div class="burbuja"></div>
+          <div class="burbuja"></div>
+          <div class="burbuja"></div>
+          <div class="burbuja"></div>
+          <div class="burbuja"></div>
+          <div class="burbuja"></div>
+          <div class="burbuja"></div>
+          <div class="burbuja"></div>
+        </div>
+        
       </div>
     </div>
   )
