@@ -13,7 +13,7 @@ export async function GET(request) {
       const ticket = doc.data();
       tickets.push(ticket);
     });
-
+    console.log(tickets)
     return NextResponse.json(tickets);
   } catch (error) {
     console.error("Error al obtener los tickets:", error);
