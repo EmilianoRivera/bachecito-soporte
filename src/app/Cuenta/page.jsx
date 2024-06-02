@@ -158,17 +158,17 @@ function Administrador() {
           </form>
         </div>
 
-        <div class="burbujas">
-          <div class="burbuja"></div>
-          <div class="burbuja"></div>
-          <div class="burbuja"></div>
-          <div class="burbuja"></div>
-          <div class="burbuja"></div>
-          <div class="burbuja"></div>
-          <div class="burbuja"></div>
-          <div class="burbuja"></div>
-          <div class="burbuja"></div>
-          <div class="burbuja"></div>
+        <div class="burbujas_">
+          <div class="burbuja_"></div>
+          <div class="burbuja_"></div>
+          <div class="burbuja_"></div>
+          <div class="burbuja_"></div>
+          <div class="burbuja_"></div>
+          <div class="burbuja_"></div>
+          <div class="burbuja_"></div>
+          <div class="burbuja_"></div>
+          <div class="burbuja_"></div>
+          <div class="burbuja_"></div>
         </div>
 
       </div>

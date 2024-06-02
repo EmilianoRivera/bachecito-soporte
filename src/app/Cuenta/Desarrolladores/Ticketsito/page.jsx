@@ -227,7 +227,7 @@ function Tickets() {
             onChange={(e) => setSearchFolio(e.target.value)}
           />
         </div>
-        <br/>
+        <br />
         <table>
           <thead>
             <tr className='sticky-top'>
@@ -269,23 +269,65 @@ function Tickets() {
 
       {showModal && (
         <div className="modal">
+          <div className='titul'>
+            <p className='titulinn'>Detalles del ticket 📑</p>
+          </div>
           <div className="modal-content">
             <span className="close" onClick={closeModal}>&times;</span>
-            <p className='titulinn'>Detalles del ticket 📑</p>
-            <p>Fecha de Envio: {formatTimestamp(selectedTicket.fechaDeEnvio)}</p>
-            <p>Prioridad: {selectedTicket.priori}</p>
-            <p>Folio: {selectedTicket.folio}</p>
-            <p>Area: {selectedTicket.area}</p>
-            <p>Admin: {selectedTicket.nombre}</p>
-            <p>Correo: {selectedTicket.correoA}</p>
-            <p>Navegador: {selectedTicket.navegador}</p>
-            <p>Sistema Operativo: {selectedTicket.sistemaOperativo}</p>
-            <p>Tipo de error: {selectedTicket.errorSeleccionado}</p>
-            <p>Ruta: {selectedTicket.rutitaD}</p>
-            <p>Descripción: {selectedTicket.descripcionProblema}</p>
-            <div className="fotografía">
-              <img src={selectedTicket.url} alt={"FOTO"} style={{ width: '100%', maxHeight: '100%' }} />
-            </div>
+            <table className='table-content'>
+              <tr>
+                <td className='tdsito1'><p className='psito'>Fecha de Envio: </p></td>
+                <td className='tdsito2'><p className='p'>{formatTimestamp(selectedTicket.fechaDeEnvio)}</p></td>
+              </tr>
+              <tr>
+                <td className='tdsito1'><p className='psito'>Prioridad: </p></td>
+                <td className='tdsito2'><p className='p'>{selectedTicket.priori}</p></td>
+              </tr>
+              <tr>
+                <td className='tdsito1'><p className='psito'>Folio: </p></td>
+                <td className='tdsito2'><p className='p'>{selectedTicket.folio}</p></td>
+              </tr>
+              <tr>
+                <td className='tdsito1'><p className='psito'>Area: </p></td>
+                <td className='tdsito2'><p className='p'>{selectedTicket.area}</p></td>
+              </tr>
+              <tr>
+                <td className='tdsito1'><p className='psito'>Admin: </p></td>
+                <td className='tdsito2'><p className='p'>{selectedTicket.nombre}</p></td>
+              </tr>
+              <tr>
+                <td className='tdsito1'><p className='psito'>Correo: </p></td>
+                <td className='tdsito2'><p className='p'>{selectedTicket.correoA}</p></td>
+              </tr>
+              <tr>
+                <td className='tdsito1'><p className='psito'>Navegador: </p></td>
+                <td className='tdsito2'><p className='p'>{selectedTicket.navegador}</p></td>
+              </tr>
+              <tr>
+                <td className='tdsito1'><p className='psito'>Sistema Operativo: </p></td>
+                <td className='tdsito2'><p className='p'>{selectedTicket.sistemaOperativo}</p></td>
+              </tr>
+              <tr>
+                <td className='tdsito1'><p className='psito'>Tipo de error: </p></td>
+                <td className='tdsito2'><p className='p'>{selectedTicket.errorSeleccionado}</p></td>
+              </tr>
+              <tr>
+                <td className='tdsito1'><p className='psito'>Ruta: </p></td>
+                <td className='tdsito2'><p className='p'>{selectedTicket.rutitaD}</p></td>
+              </tr>
+              <tr>
+                <td className='tdsito1'><p className='psito'>Descripción: </p></td>
+                <td className='tdsito2'><p className='p'>{selectedTicket.descripcionProblema}</p></td>
+              </tr>
+              <tr>
+                <td className='tdsito1'><p className='psito'>Fotografía</p></td>
+                <td className='tdsito2'>
+                  <div className="fotografía">
+                    <img src={selectedTicket.url} alt={"FOTO"} style={{ width: '100%', maxHeight: '100%' }} />
+                  </div>
+                </td>
+              </tr>
+            </table>
           </div>
         </div>
       )}
