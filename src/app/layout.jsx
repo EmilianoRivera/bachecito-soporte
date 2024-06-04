@@ -4,9 +4,12 @@ import "./globals.css";
 
 /*
 export const metadata = {
+
   title: "Soporte Bachecito 26",
   description: "Desarrollado por GEMMA",
-};*/
+};
+*/
+
 
 export default function RootLayout({ children }) {
 

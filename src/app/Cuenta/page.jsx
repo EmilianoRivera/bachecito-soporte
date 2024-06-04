@@ -97,7 +97,7 @@ function Administrador() {
               });
             });
             alert("Cuenta restablecida correctamente");
-            push("/Cuenta/Administrador/Dashboard");
+            push("/Cuenta");
           } else {
             signOut(auth);
             alert("Inicio de sesión cancelado");
@@ -158,17 +158,17 @@ function Administrador() {
           </form>
         </div>
 
-        <div class="burbujas_">
-          <div class="burbuja_"></div>
-          <div class="burbuja_"></div>
-          <div class="burbuja_"></div>
-          <div class="burbuja_"></div>
-          <div class="burbuja_"></div>
-          <div class="burbuja_"></div>
-          <div class="burbuja_"></div>
-          <div class="burbuja_"></div>
-          <div class="burbuja_"></div>
-          <div class="burbuja_"></div>
+        <div className="burbujas_">
+          <div className="burbuja_"></div>
+          <div className="burbuja_"></div>
+          <div className="burbuja_"></div>
+          <div className="burbuja_"></div>
+          <div className="burbuja_"></div>
+          <div className="burbuja_"></div>
+          <div className="burbuja_"></div>
+          <div className="burbuja_"></div>
+          <div className="burbuja_"></div>
+          <div className="burbuja_"></div>
         </div>
 
       </div>

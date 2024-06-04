@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from "react";
-import { auth, db } from "../../../../../firebase";
-import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
-import { addDoc, collection } from 'firebase/firestore';
+import { useRouter } from "next/navigation";
+
 import "./style.css";
+import { enc } from "@/scripts/Cifrado/Cifrar";
 
 function NuevoDev() {
   const [nombre, setNombre] = useState("Sin nombre");
@@ -13,7 +13,7 @@ function NuevoDev() {
   const [contraseña, setContraseña] = useState("Sin contraseña");
   const [fechaNacimiento, setFechaNacimiento] = useState("Sin fecha nacimiento");
   const [tipo, setTipo] = useState("Sin tipo");
-
+  const router = useRouter();
   const handleNombre = (e) => {
     setNombre(e.target.value);
   };
@@ -44,29 +44,44 @@ function NuevoDev() {
 
   const handleRegistroDev = async (e) => {
     e.preventDefault();
-    console.log(nombre, apmat, appat, correo, contraseña, fechaNacimiento, tipo);
+
+    const name = enc(nombre)
+    const apellidoP = enc(appat)
+    const apellidoM = enc(apmat)
+    const email = enc(correo)
+    const password = enc(contraseña)
+    const fechaN = enc(fechaNacimiento)
+    const tip = enc(tipo)
+
+
+    const parametros = {
+      nom: encodeURIComponent(name),
+      appat: encodeURIComponent(apellidoP),
+      apmat: encodeURIComponent(apellidoM),
+      corr: encodeURIComponent(email),
+      pass: encodeURIComponent(password),
+      fechaNac: encodeURIComponent(fechaN),
+      tipoDev: encodeURIComponent(tip)
+    }
+    const baseURL = process.env.NEXT_PUBLIC_RUTA_ND
+
+
     try {
       e.preventDefault();
-      const devCredential = await createUserWithEmailAndPassword(auth, correo, contraseña)
-      const dev = devCredential.user
-      sendEmailVerification(dev)
-      alert("Se envió correo")
-      const uid = dev.uid
+      const res = await fetch(`${baseURL}/${encodeURIComponent(name)}/${encodeURIComponent(apellidoP)}/${encodeURIComponent(apellidoM)}/${encodeURIComponent(email)}/${encodeURIComponent(password)}/${encodeURIComponent(fechaN)}/${encodeURIComponent(tip)}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(parametros),
+      })
 
-      const usuariosCollection = collection(db, "usuarios")   //collection(db, "tickets")
-      const nuevoUsuario = {
-        uid: uid,
-        nombre: nombre,
-        apellidoPaterno: appat,
-        apellidoMaterno: apmat,
-        fechaNacimiento: fechaNacimiento,
-        correo: correo,
-        estadoCuenta: true,
-        rol: "dev",
-        tipo: tipo
+      if(!res.ok) {
+        throw new Error("Error al crear nuevo dev")
       }
-      addDoc(usuariosCollection, nuevoUsuario)
-      alert("Se guardó al desarrollador")
+
+      alert("Se envió email de verificación")
+      router.push("/Cuenta/SuperAdmin/GestionDevs")
     } catch (error) {
       console.error("error al crear la cuenta: ", error)
       alert(error.mesagge)
