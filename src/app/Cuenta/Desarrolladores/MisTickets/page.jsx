@@ -256,12 +256,12 @@ function MisTickets() {
                 </td>
               </tr>
             </table>
-
+            <br/>
             {selectedTicket.estado === 'Asignado' && (
-              <button onClick={() => openCommentModal(selectedTicket)}>Resuelto</button>
+              <button className= "ticket-button" onClick={() => openCommentModal(selectedTicket)}>Resuelto</button>
             )}
             {selectedTicket.estado === 'Reabierto' && (
-              <button onClick={() => openCommentModal2(selectedTicket)}>Resuelto 2</button>
+              <button className= "ticket-button" onClick={() => openCommentModal2(selectedTicket)}>Resuelto 2</button>
             )}
           </div>
         </div>
@@ -276,7 +276,7 @@ function MisTickets() {
               onChange={(e) => setComment(e.target.value)}
               placeholder="Agrega tu comentario aquí..."
             />
-            <button onClick={() => cambiarEstado(selectedTicket.folio, comment)}>Enviar</button>
+            <button className= "ticket-button" onClick={() => cambiarEstado(selectedTicket.folio, comment)}>Enviar</button>
           </div>
         </div>
       )}
@@ -290,7 +290,7 @@ function MisTickets() {
               onChange={(e) => setComment(e.target.value)}
               placeholder="Agrega tu comentario aquí..."
             />
-            <button onClick={() => cambiarEstado2(selectedTicket.folio, comment)}>Enviar</button>
+            <button className= "ticket-button" onClick={() => cambiarEstado2(selectedTicket.folio, comment)}>Enviar</button>
           </div>
         </div>
       )}

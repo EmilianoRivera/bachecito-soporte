@@ -551,47 +551,138 @@ function Gtickets() {
 
             {selectedTicket2.estado === "Asignado" && (
               <div className='datos-asignado'>
-                <p>Responsable del ticket: {userData2.nombre} {userData2.apellidoPaterno} ({userData2.rol} / {userData2.tipo})</p>
-                <p>Fecha de Asignación: {formatTimestamp(selectedTicket2.fechaAsignado)}</p>
-                <p>Hora de Asignación: {hora(selectedTicket2.fechaAsignado)}</p>
+                <table className='table-content'>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Responsable del ticket: </p></td>
+                    <td className='tdsito2'><p className='p'>{userData2.nombre} {userData2.apellidoPaterno} ({userData2.rol} / {userData2.tipo})</p></td>
+                  </tr>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Fecha de Asignación: </p></td>
+                    <td className='tdsito2'><p className='p'>{formatTimestamp(selectedTicket2.fechaAsignado)}</p></td>
+                  </tr>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Hora de Asignación: </p></td>
+                    <td className='tdsito2'><p className='p'>{hora(selectedTicket2.fechaAsignado)}</p></td>
+                  </tr>
+                </table>
               </div>
             )}
 
             {selectedTicket2.estado === "Resuelto" && !selectedTicket2.fechaReapertura && (
               <div className='datos-resolucion'>
-                <p>Prioridad: {selectedTicket2.priori}</p>
-                <p>Área: {selectedTicket2.area}</p>
-                <p>Fecha de Envío: {formatTimestamp(selectedTicket2.fechaDeEnvio)}</p>
-                <p>Hora de Envío: {hora(selectedTicket2.fechaDeEnvio)}</p>
-                <p>Responsable del ticket: {userData2.nombre} {userData2.apellidoPaterno} ({userData2.rol} / {userData2.tipo})</p>
-                <p>Fecha de Asignación: {formatTimestamp(selectedTicket2.fechaAsignado)}</p>
-                <p>Hora de Asignación: {hora(selectedTicket2.fechaAsignado)}</p>
-                <p>Fecha de Resolución: {formatTimestamp(selectedTicket2.fechaResuelto)}</p>
-                <p>Hora de Resolución: {hora(selectedTicket2.fechaResuelto)}</p>
-                <p>Comentario del desarrollador: {selectedTicket2.comentario}</p>
-                <button className="ticket-button" onClick={() => Reabrir(selectedTicket2.folio)}>Reabrir</button>
+                <table className='table-content'>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Prioridad: </p></td>
+                    <td className='tdsito2'><p className='p'>{selectedTicket2.priori}</p></td>
+                  </tr>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Área: </p></td>
+                    <td className='tdsito2'><p className='p'>{selectedTicket2.area}</p></td>
+                  </tr>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Fecha de Envío: </p></td>
+                    <td className='tdsito2'><p className='p'>{formatTimestamp(selectedTicket2.fechaDeEnvio)}</p></td>
+                  </tr>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Hora de Envío: </p></td>
+                    <td className='tdsito2'><p className='p'>{hora(selectedTicket2.fechaDeEnvio)}</p></td>
+                  </tr>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Responsable del ticket: </p></td>
+                    <td className='tdsito2'><p className='p'>{userData2.nombre} {userData2.apellidoPaterno} ({userData2.rol} / {userData2.tipo})</p></td>
+                  </tr>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Fecha de Asignación: </p></td>
+                    <td className='tdsito2'><p className='p'>{formatTimestamp(selectedTicket2.fechaAsignado)}</p></td>
+                  </tr>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Hora de Asignación: </p></td>
+                    <td className='tdsito2'><p className='p'>{hora(selectedTicket2.fechaAsignado)}</p></td>
+                  </tr>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Fecha de Resolución: </p></td>
+                    <td className='tdsito2'><p className='p'>{formatTimestamp(selectedTicket2.fechaResuelto)}</p></td>
+                  </tr>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Hora de Resolución: </p></td>
+                    <td className='tdsito2'><p className='p'>{hora(selectedTicket2.fechaResuelto)}</p></td>
+                  </tr>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Comentario del desarrollador: </p></td>
+                    <td className='tdsito2'><p className='p'>{selectedTicket2.comentario}</p></td>
+                  </tr>
+                </table>   
+                <button className="ticket-button-reabrir" onClick={() => Reabrir(selectedTicket2.folio)}>Reabrir</button>
               </div>
             )}
 
             {selectedTicket2.fechaReapertura && (
+              
               <div className='datos-reabierto'>
-                <p>Estado inicial del reporte antes de la reapertura</p>
-                <p>----------------------</p>
-                <p>Fecha de Envío: {formatTimestamp(selectedTicket2.fechaDeEnvio)}</p>
-                <p>Hora de Envío: {hora(selectedTicket2.fechaDeEnvio)}</p>
-                <p>Responsable del ticket: {userData2.nombre} {userData2.apellidoPaterno} ({userData2.rol} / {userData2.tipo})</p>
-                <p>Fecha de Asignación: {formatTimestamp(selectedTicket2.fechaAsignado)}</p>
-                <p>Hora de Asignación: {hora(selectedTicket2.fechaAsignado)}</p>
-                <p>Fecha de Resolución: {formatTimestamp(selectedTicket2.fechaResuelto)}</p>
-                <p>Hora de Resolución: {hora(selectedTicket2.fechaResuelto)}</p>
-                <p>Comentario del desarrollador: {selectedTicket2.comentario}</p>
-                <p>----------------------</p>
-                <p>Fecha de Reapertura: {formatTimestamp(selectedTicket2.fechaReapertura)}</p>
-                <p>Hora de Reapertura: {hora(selectedTicket2.fechaReapertura)}</p>
-                <p>Motivo de la reapertura: {selectedTicket2.motivoReapertura}</p>
-                <p>Fecha de Resolución dos: {formatTimestamp(selectedTicket2.fechaSReapertura)}</p>
-                <p>Hora de Resolución: {hora(selectedTicket2.fechaSReapertura)}</p>
-                <p>Comentario del desarrollador: {selectedTicket2.comentarioR}</p>
+                <p className='rayitass' align= "center">Estado inicial del reporte antes de la reapertura</p>
+                <br/>
+                <p className='rayitas' align= "center">---------------------------------------------------------------------------------------------------</p>
+                <table className='table-content'>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Fecha de Envío: </p></td>
+                    <td className='tdsito2'><p className='p'>{formatTimestamp(selectedTicket2.fechaDeEnvio)}</p></td>
+                  </tr>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Hora de Envío: </p></td>
+                    <td className='tdsito2'><p className='p'>{hora(selectedTicket2.fechaDeEnvio)}</p></td>
+                  </tr>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Responsable del ticket: </p></td>
+                    <td className='tdsito2'><p className='p'>{userData2.nombre} {userData2.apellidoPaterno} ({userData2.rol} / {userData2.tipo})</p></td>
+                  </tr>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Fecha de Asignación: </p></td>
+                    <td className='tdsito2'><p className='p'>{formatTimestamp(selectedTicket2.fechaAsignado)}</p></td>
+                  </tr>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Hora de Asignación: </p></td>
+                    <td className='tdsito2'><p className='p'>{hora(selectedTicket2.fechaAsignado)}</p></td>
+                  </tr>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Fecha de Resolución: </p></td>
+                    <td className='tdsito2'><p className='p'>{formatTimestamp(selectedTicket2.fechaResuelto)}</p></td>
+                  </tr>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Hora de Resolución: </p></td>
+                    <td className='tdsito2'><p className='p'>{hora(selectedTicket2.fechaResuelto)}</p></td>
+                  </tr>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Comentario del desarrollador: </p></td>
+                    <td className='tdsito2'><p className='p'>{selectedTicket2.comentario}</p></td>
+                  </tr>
+                </table> 
+                <p className='rayitas' align= "center">---------------------------------------------------------------------------------------------------</p>
+                <table className='table-content'>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Fecha de Reapertura: </p></td>
+                    <td className='tdsito2'><p className='p'>{formatTimestamp(selectedTicket2.fechaReapertura)}</p></td>
+                  </tr>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Hora de Reapertura: </p></td>
+                    <td className='tdsito2'><p className='p'>{hora(selectedTicket2.fechaReapertura)}</p></td>
+                  </tr>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Motivo de la reapertura: </p></td>
+                    <td className='tdsito2'><p className='p'>{selectedTicket2.motivoReapertura}</p></td>
+                  </tr>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Fecha de Resolución dos: </p></td>
+                    <td className='tdsito2'><p className='p'>{formatTimestamp(selectedTicket2.fechaSReapertura)}</p></td>
+                  </tr>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Hora de Resolución: </p></td>
+                    <td className='tdsito2'><p className='p'>{hora(selectedTicket2.fechaSReapertura)}</p></td>
+                  </tr>
+                  <tr>
+                    <td className='tdsito1'><p className='psito'>Comentario del desarrollador: </p></td>
+                    <td className='tdsito2'><p className='p'>{selectedTicket2.comentarioR}</p></td>
+                  </tr>
+                </table> 
               </div>
             )}
           </div>

@@ -1,6 +1,85 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@400..800&family=Nunito:ital,wght@0,200..1000;1,200..1000&display =intercambiar');
 
+
+:root {
+    --background-color: #fff;
+    --text-color: #666;
+    --background-color-2: #f1f1f1;
+    --text-color-3: #949494;
+    --background-color-4: #fff;
+    --background-color-5: #fff;
+    --text-color-5: #606060;
+    --background-color-6: #d1d1d1;
+
+    --background-color-10: #f1f1f1;
+    --text-color-6: #FF5136;
+    --background-color-7: #ffffffc7;
+    --background-color-11: #d1d1d1a9;
+    --background-color-12: #d1d1d15e;
+    --text-color-7: #1E1E1E;
+    --background-color-8: #ffffffc7;
+    --background-image-1: url("https://i.postimg.cc/hGJ2TBZ9/form-Admin.png");
+}
+
+.dark-mode {
+    --background-color: #1E1E1E;
+    --text-color: #f1f1f1;
+    --text-color-5: #606060;
+    --text-color-7: #f7f7f7;
+    --background-color-11: #2e2e2e;
+    --background-color-12: #2424246b;
+
+    --text-color-3: #ffffff;
+    --background-color-2: #2e2e2e;
+    --background-color-4: #525252;
+    --background-color-5: #2e2e2e;
+    --background-color-6: #505050;
+    --text-color-6: #ff9c8d;
+    --background-color-7: #363636a8;
+
+    --background-color-10: #242424;
+    --background-color-8: #2424246b;
+    --background-image-1: url("https://i.postimg.cc/L5h56x86/Whats-App-Image-2024-05-04-at-19-09-21.jpg");
+
+}
+
+
+.btn-dark {
+    z-index: 100000;
+    position: fixed;
+    top: 4rem;
+    right: 2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.btn-dark img {
+    width: 40px;
+    width: 40px;
+}
+
+.btn-dark .lunaaaa {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+    margin-top: 5px;
+}
+
+body.light-mode {
+    background-color: #FFF;
+    color: #1E1E1E;
+}
+
+body.dark-mode {
+    background-color: #1E1E1E;
+    color: #FFF;
+}
+
 body {
     height: 100%;
     margin: 0;
@@ -10,9 +89,20 @@ body {
 
 }
 
-.body-principal {
+.body-principal.light-mode {
     font-family: "Baloo Thambi 2", system-ui;
-    background: #ffd073;
+    background: #FFF;
+    color: #1e1e1e;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    height: 100vh;
+}
+
+.body-principal.dark-mode {
+    font-family: "Baloo Thambi 2", system-ui;
+    background: #1E1E1E;
+    color: #FFF;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -33,28 +123,32 @@ body {
 }
 
 .banner_title h2 {
-    color: #fff;
+    color: #FF9F49;
     font-size: 60px;
     font-weight: 800;
     margin-bottom: 20px;
+    font-family: "Baloo Thambi 2", system-ui;
 }
+
 
 .banner_title .llamanos {
     color: #fff;
     font-size: 20px;
     text-decoration: none;
     display: inline-block;
-    background: #949494;
+    background: #FF9F49;
     padding: 15px;
     width: 15%;
     border-radius: 15px;
     text-align: center;
     transition: .5s;
+    font-family: "Baloo Thambi 2", system-ui;
+
 }
 
-.banner_title .llamanos:hover{
+.banner_title .llamanos:hover {
     background: #FFF;
-    color: #949494;
+    color: #FF9F49;
 }
 
 .banner_img {
@@ -70,7 +164,7 @@ body {
 
 .burbuja {
     border-radius: 50%;
-    background: #fff;
+    background: #FF9F49;
     opacity: .3;
 
     position: absolute;

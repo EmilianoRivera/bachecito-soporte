@@ -269,6 +269,22 @@ tr:nth-child(even) {
   padding: 5px;
 }
 
+.ticket-button {
+  padding: 10px 20px;
+  background-color: #FF9F49;
+  /* Color de fondo */
+  color: white;
+  /* Color del texto */
+  border: none;
+  /* Sin borde */
+  border-radius: 10px;
+  /* Borde redondeado */
+  cursor: pointer;
+  /* Cursor al pasar sobre el botón */
+  transition: .5s;
+  font-family: "Baloo Thambi 2", system-ui;
+}
+
 
 ::-webkit-scrollbar {
   width: 10px; /* Ancho de la barra de desplazamiento */

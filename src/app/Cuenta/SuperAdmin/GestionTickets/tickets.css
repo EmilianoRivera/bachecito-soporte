@@ -133,6 +133,23 @@ select::-ms-expand {
   
 }
 
+.ticket-button-reabrir{
+  padding: 10px 20px;
+  background-color: #FF9F49;
+  /* Color de fondo */
+  color: white;
+  /* Color del texto */
+  border: none;
+  /* Sin borde */
+  border-radius: 10px;
+  /* Borde redondeado */
+  cursor: pointer;
+  /* Cursor al pasar sobre el botón */
+  transition: .5s;
+  font-family: "Baloo Thambi 2", system-ui;
+  margin-left: 45%;
+}
+
 td button:hover {
   background-color: #949494;
 }
@@ -312,9 +329,19 @@ th {
   color: #FFF;
 }
 
+.modal .modal-content .rayitas{
+  margin-left: 10%;
+}
+
+.modal .modal-content .rayitass{
+  margin-left: 29%;
+}
+
 .modal .modal-content- .tablita{
   margin-left: 20%;
 }
+
+
 
 #titulin1,
 #titulin2,
