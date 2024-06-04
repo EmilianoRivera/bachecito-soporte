@@ -1,8 +1,10 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { auth, db } from "../../../../../firebase";
-import './tickets.css';
+import "./tickets.css";
 import { useRouter } from "next/navigation";
+import { desc, enc } from "@/scripts/Cifrado/Cifrar";
+
 import {
   updateDoc,
   collection,
@@ -30,6 +32,20 @@ function Gtickets() {
   const [showModal2, setShowModal2] = useState(false);
   const [showModal3, setShowModal3] = useState(false);
 
+/*   useEffect(() => {
+    console.log("esto es de mi use effect");
+
+    if (showModal3) {
+      console.log("mi registro",userData);
+      userData.map((value, key)=> {
+        console.log(value)
+      })
+      // Aquí recorro userData que es el objeto
+      Object.entries(userData).forEach(([key, value]) => {
+        console.log(`${key}: ${value}`);
+      });
+    }
+  }, [showModal3]); */
 
   const openModal = (ticket) => {
     setSelectedTicket(ticket);
@@ -42,7 +58,6 @@ function Gtickets() {
   const openModal3 = (ticket) => {
     setShowModal3(true);
     setSelectedTicket(ticket);
-
   };
   const closeModal = () => {
     setShowModal(false);
@@ -75,13 +90,13 @@ function Gtickets() {
       const dateObject = new Date(timestamp.seconds * 1000); // Multiplica por 1000 para convertir segundos a milisegundos
       // Opciones de formato para la hora
       const options = {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
         hour12: true,
-        timeZoneName: 'short'
+        timeZoneName: "short",
       };
-      return dateObject.toLocaleString('en-US', options);
+      return dateObject.toLocaleString("en-US", options);
     } else {
       return "SIN HORA";
     }
@@ -102,14 +117,17 @@ function Gtickets() {
 
     async function fetchData(uid) {
       try {
-        const userResponse = await fetch(`/api/Usuario/${uid}`);
+        const Uid = enc(uid);
+        const baseURL = process.env.NEXT_PUBLIC_RUTA_U;
+        const userResponse = await fetch(
+          `${baseURL}/${encodeURIComponent(Uid)}`
+        );
         if (!userResponse.ok) {
           throw new Error("Failed to fetch user data");
         }
         const userDatas = await userResponse.json();
-
-
-        setUserData(userDatas);
+        const dat = desc(userDatas);
+        setUserData3(dat);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -119,13 +137,14 @@ function Gtickets() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch("/api/TicketsTotales");
+        const baseURL = process.env.NEXT_PUBLIC_RUTA_TT;
+        const response = await fetch(`${baseURL}`);
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
         const data = await response.json();
-
-        setTick(data);
+        const dataEnc = data.map((rep) => desc(rep));
+        setTick(dataEnc);
       } catch (error) {
         console.log("Error fetching data: ", error);
       }
@@ -139,7 +158,10 @@ function Gtickets() {
       try {
         if (selectedTicket2) {
           // Realizar la consulta para obtener el documento del usuario asignado al ticket
-          const userQuery = query(collection(db, "usuarios"), where("uid", "==", selectedTicket2.usuarioAsignado));
+          const userQuery = query(
+            collection(db, "usuarios"),
+            where("uid", "==", selectedTicket2.usuarioAsignado)
+          );
           const querySnapshot = await getDocs(userQuery);
 
           // Verificar si hay algún documento en el resultado de la consulta
@@ -159,17 +181,18 @@ function Gtickets() {
 
     fetchData();
   }, [selectedTicket2]);
-  //DEVS TODOS: 
+  //DEVS TODOS:
   useEffect(() => {
     async function fetchData() {
       try {
-        const userResponse = await fetch("/api/DevsGeneral");
+        const baseURL = process.env.NEXT_PUBLIC_RUTA_DG;
+        const userResponse = await fetch(`${baseURL}`);
         if (!userResponse.ok) {
           throw new Error("Failed to fetch user data");
         }
         const userDatas = await userResponse.json();
-
-        setUserData(userDatas);
+        const data = userDatas.map((rep) => desc(rep));
+        setUserData(data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -179,7 +202,10 @@ function Gtickets() {
   // REABRIR
   const Reabrir = async (folio) => {
     try {
-      const ticketQuery = query(collection(db, "tickets"), where("folio", "==", folio));
+      const ticketQuery = query(
+        collection(db, "tickets"),
+        where("folio", "==", folio)
+      );
       const ticketQuerySnapshot = await getDocs(ticketQuery);
 
       if (!ticketQuerySnapshot.empty) {
@@ -189,10 +215,14 @@ function Gtickets() {
         if (ticketDocSnap.exists()) {
           const ticketData = ticketDocSnap.data();
           if (ticketData.fechaReapertura) {
-            alert("El ticket ya ha sido reabierto anteriormente y no se puede reabrir de nuevo.");
+            alert(
+              "El ticket ya ha sido reabierto anteriormente y no se puede reabrir de nuevo."
+            );
             return;
           }
-          const motivoReapertura = prompt("Ingrese el motivo de la reapertura:");
+          const motivoReapertura = prompt(
+            "Ingrese el motivo de la reapertura:"
+          );
           if (!motivoReapertura) {
             alert("Debe ingresar un motivo para la reapertura.");
             return;
@@ -207,18 +237,21 @@ function Gtickets() {
           alert("Ticket reabierto exitosamente.");
         }
       } else {
-        console.error("No se encontró ningún documento de ticket con el folio proporcionado.");
+        console.error(
+          "No se encontró ningún documento de ticket con el folio proporcionado."
+        );
         alert("No se encontró ningún ticket con el folio proporcionado.");
       }
     } catch (error) {
       console.error("Error al reabrir el ticket:", error);
-      alert("Hubo un error al intentar reabrir el ticket. Inténtelo nuevamente.");
+      alert(
+        "Hubo un error al intentar reabrir el ticket. Inténtelo nuevamente."
+      );
     }
   };
 
   const Asignar = async (folio, user, ticketsito) => {
     try {
-      console.log(folio, " ", user);
       // Verificar si userData no es null y tiene la propiedad uid
       if (user && user.uid) {
         // Realizar una consulta para encontrar el documento del usuario
@@ -244,10 +277,12 @@ function Gtickets() {
             const foliosGuardadosAnteriores = userData.foliosGuardados || [];
 
             // Verificar si el usuario tiene el mismo tipo de área que el ticket
-            if ((userData.tipo === "Frontend" && ticketsito.area === "Frontend") ||
-              (userData.tipo === "Backend" && ticketsito.area === "Backend") ||
-              (ticketsito.area === "Otro")) {
-
+            if (
+              (userData.tipo === "Frontend" &&
+                ticketsito.areas === "Frontend") ||
+              (userData.tipo === "Backend" && ticketsito.areas === "Backend") ||
+              ticketsito.areas === "Otro"
+            ) {
               // Verificar si el folio ya ha sido guardado previamente
               if (foliosGuardadosAnteriores.includes(folio)) {
                 console.log("El folio ya ha sido guardado anteriormente.");
@@ -279,26 +314,34 @@ function Gtickets() {
                 const camposActualizados = {
                   usuarioAsignado: userData.uid,
                   fechaAsignado: new Date(),
-                  estado: estadito
+                  estado: estadito,
                 };
 
                 // Actualizar solo los campos especificados en el documento del ticket
                 await updateDoc(ticketDocRef, camposActualizados);
 
-                console.log("Usuario asignado y fecha de asignación actualizados en el documento del ticket.");
+                console.log(
+                  "Usuario asignado y fecha de asignación actualizados en el documento del ticket."
+                );
                 alert("Ticket asignado exitosamente");
               }
             } else {
               // Si el área del ticket no coincide con el área del usuario, mostrar alerta
-              alert("Oh ese usuario no pertenece a esta area, intenta con otro(:");
+              alert(
+                "Oh ese usuario no pertenece a esta area, intenta con otro(:"
+              );
             }
 
             console.log("Folio guardado en la base de datos del usuario.");
           } else {
-            console.error("El documento del usuario no existe en la base de datos.");
+            console.error(
+              "El documento del usuario no existe en la base de datos."
+            );
           }
         } else {
-          console.error("No se encontró ningún documento de usuario que contenga el UID proporcionado.");
+          console.error(
+            "No se encontró ningún documento de usuario que contenga el UID proporcionado."
+          );
         }
       } else {
         console.error("No se proporcionaron datos de usuario válidos.");
@@ -312,7 +355,7 @@ function Gtickets() {
     // Convertir el filtro de búsqueda y los campos de los tickets a mayúsculas
     const filtroMayuscula = filtroBusqueda.toUpperCase();
     const folioMayuscula = ticket.folio.toUpperCase();
-    const rutaMayuscula = ticket.rutitaD ? ticket.rutitaD.toUpperCase() : ''
+    const rutaMayuscula = ticket.rutaE ? ticket.rutaE.toUpperCase() : "";
     // Aplicar filtro por prioridad
     if (filtroPrioridad && ticket.priori !== filtroPrioridad) {
       return false;
@@ -322,15 +365,15 @@ function Gtickets() {
       return false;
     }
     // Aplicar filtro por área
-    if (filtroArea && ticket.area !== filtroArea) {
+    if (filtroArea && ticket.areas !== filtroArea) {
       return false;
     }
     // Aplicar filtro por búsqueda
     if (
       filtroBusqueda &&
       !(
-        folioMayuscula.includes(filtroMayuscula)
-        || rutaMayuscula.includes(filtroMayuscula)
+        folioMayuscula.includes(filtroMayuscula) ||
+        rutaMayuscula.includes(filtroMayuscula)
       )
     ) {
       return false;
@@ -340,9 +383,9 @@ function Gtickets() {
   // Asignar prioridades a los estados
   const estadoPrioridades = {
     "Sin asignar": 1,
-    "Asignado": 2,
-    "Resuelto": 3,
-    "Reabierto": 4,
+    Asignado: 2,
+    Resuelto: 3,
+    Reabierto: 4,
   };
 
   // Función de comparación para ordenar los tickets
@@ -359,9 +402,8 @@ function Gtickets() {
     }
   };
 
-
   return (
-    <div className='body_gest_tickets'>
+    <div className="body_gest_tickets">
       <div className="ticket-container">
         <div className="ticket-header">
           <p className="ticket-title">🔄️ Cambios en los Tickets 🏷️</p>
@@ -402,7 +444,7 @@ function Gtickets() {
             </div>
 
             <input
-              className='buscador'
+              className="buscador"
               type="text"
               placeholder=" Buscar por folio o ruta..."
               value={filtroBusqueda}
@@ -413,33 +455,45 @@ function Gtickets() {
         <table className="ticket-table">
           <thead>
             <tr className="sticky-top">
-              <th className='.th'>Folio</th>
-              <th className='.th'>Área</th>
-              <th className='.th'>Fecha de envío</th>
-              <th className='.th'>Estado</th>
-              <th className='.th'>Prioridad</th>
-              <th className='.th'>Ruta</th>
-              <th className='.th'>Detalles</th>
-              <th className='.th'>Historial</th>
+              <th className=".th">Folio</th>
+              <th className=".th">Área</th>
+              <th className=".th">Fecha de envío</th>
+              <th className=".th">Estado</th>
+              <th className=".th">Prioridad</th>
+              <th className=".th">Ruta</th>
+              <th className=".th">Detalles</th>
+              <th className=".th">Historial</th>
             </tr>
           </thead>
           <tbody>
             {tick
-              .sort((ordenarTickets))
+              .sort(ordenarTickets)
               .filter(filtrarTickets)
               .map((ticketsito, index) => (
                 <tr key={index} className="ticket-body">
                   <td className="td">{ticketsito.folio}</td>
-                  <td className="td">{ticketsito.area}</td>
-                  <td className="td">{formatTimestamp(ticketsito.fechaDeEnvio)}</td>
+                  <td className="td">{ticketsito.areas}</td>
+                  <td className="td">
+                    {formatTimestamp(ticketsito.fechaDeEnvio)}
+                  </td>
                   <td className="td">{ticketsito.estado}</td>
                   <td className="td">{ticketsito.priori}</td>
-                  <td className="td">{ticketsito.rutitaD}</td>
+                  <td className="td">{ticketsito.rutaE}</td>
                   <td className="td">
-                    <button className="ticket-button-detalles" onClick={() => openModal(ticketsito)}>Detalles</button>
+                    <button
+                      className="ticket-button-detalles"
+                      onClick={() => openModal(ticketsito)}
+                    >
+                      Detalles
+                    </button>
                   </td>
                   <td className="td">
-                    <button className="ticket-button-historial" onClick={() => openModal2(ticketsito)}>Historial</button>
+                    <button
+                      className="ticket-button-historial"
+                      onClick={() => openModal2(ticketsito)}
+                    >
+                      Historial
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -449,62 +503,116 @@ function Gtickets() {
 
       {showModal && (
         <div className="modal">
-          <div className='titul'>
+          <div className="titul">
             <p id="titulin1">Detalles del ticket 📑</p>
           </div>
           <div className="modal-content">
-            <span className="close" onClick={closeModal}>&times;</span>
+            <span className="close" onClick={closeModal}>
+              &times;
+            </span>
 
-            <table className='table-content'>
+            <table className="table-content">
               <tr>
-                <td className='tdsito1'><p className='psito'>Fecha de Envío: </p></td>
-                <td className='tdsito2'><p className='p'>{formatTimestamp(selectedTicket.fechaDeEnvio)}</p></td>
+                <td className="tdsito1">
+                  <p className="psito">Fecha de Envío: </p>
+                </td>
+                <td className="tdsito2">
+                  <p className="p">
+                    {formatTimestamp(selectedTicket.fechaDeEnvio)}
+                  </p>
+                </td>
               </tr>
               <tr>
-                <td className='tdsito1'><p className='psito'>Prioridad: </p></td>
-                <td className='tdsito2'><p className='p'>{selectedTicket.priori}</p></td>
+                <td className="tdsito1">
+                  <p className="psito">Prioridad: </p>
+                </td>
+                <td className="tdsito2">
+                  <p className="p">{selectedTicket.priori}</p>
+                </td>
               </tr>
               <tr>
-                <td className='tdsito1'><p className='psito'>Folio: </p></td>
-                <td className='tdsito2'><p className='p'>{selectedTicket.folio}</p></td>
+                <td className="tdsito1">
+                  <p className="psito">Folio: </p>
+                </td>
+                <td className="tdsito2">
+                  <p className="p">{selectedTicket.folio}</p>
+                </td>
               </tr>
               <tr>
-                <td className='tdsito1'><p className='psito'>Área: </p></td>
-                <td className='tdsito2'><p className='p'>{selectedTicket.area}</p></td>
+                <td className="tdsito1">
+                  <p className="psito">Área: </p>
+                </td>
+                <td className="tdsito2">
+                  <p className="p">{selectedTicket.areas}</p>
+                </td>
               </tr>
               <tr>
-                <td className='tdsito1'><p className='psito'>Administrador: </p></td>
-                <td className='tdsito2'><p className='p'>{selectedTicket.nombre}</p></td>
+                <td className="tdsito1">
+                  <p className="psito">Administrador: </p>
+                </td>
+                <td className="tdsito2">
+                  <p className="p">{selectedTicket.nom}</p>
+                </td>
               </tr>
               <tr>
-                <td className='tdsito1'><p className='psito'>Correo: </p></td>
-                <td className='tdsito2'><p className='p'>{selectedTicket.correoA}</p></td>
+                <td className="tdsito1">
+                  <p className="psito">Correo: </p>
+                </td>
+                <td className="tdsito2">
+                  <p className="p">{selectedTicket.corr}</p>
+                </td>
               </tr>
               <tr>
-                <td className='tdsito1'><p className='psito'>Navegador: </p></td>
-                <td className='tdsito2'><p className='p'>{selectedTicket.navegador}</p></td>
+                <td className="tdsito1">
+                  <p className="psito">Navegador: </p>
+                </td>
+                <td className="tdsito2">
+                  <p className="p">{selectedTicket.navegador}</p>
+                </td>
               </tr>
               <tr>
-                <td className='tdsito1'><p className='psito'>Sistema Operativo: </p></td>
-                <td className='tdsito2'><p className='p'>{selectedTicket.sistemaOperativo}</p></td>
+                <td className="tdsito1">
+                  <p className="psito">Sistema Operativo: </p>
+                </td>
+                <td className="tdsito2">
+                  <p className="p">{selectedTicket.sistemaOperativo}</p>
+                </td>
               </tr>
               <tr>
-                <td className='tdsito1'><p className='psito'>Tipo de error: </p></td>
-                <td className='tdsito2'><p className='p'>{selectedTicket.errorSeleccionado}</p></td>
+                <td className="tdsito1">
+                  <p className="psito">Tipo de error: </p>
+                </td>
+                <td className="tdsito2">
+                  <p className="p">{selectedTicket.errorE}</p>
+                </td>
               </tr>
               <tr>
-                <td className='tdsito1'><p className='psito'>Ruta: </p></td>
-                <td className='tdsito2'><p className='p'>{selectedTicket.rutitaD}</p></td>
+                <td className="tdsito1">
+                  <p className="psito">Ruta: </p>
+                </td>
+                <td className="tdsito2">
+                  <p className="p">{selectedTicket.rutaE}</p>
+                </td>
               </tr>
               <tr>
-                <td className='tdsito1'><p className='psito'>Descripción: </p></td>
-                <td className='tdsito2'><p className='p'>{selectedTicket.descripcionProblema}</p></td>
+                <td className="tdsito1">
+                  <p className="psito">Descripción: </p>
+                </td>
+                <td className="tdsito2">
+                  <p className="p">{selectedTicket.dP}</p>
+                </td>
               </tr>
               <tr>
-                <td className='tdsito1'><p className='psito'>Fotografía: </p></td>
-                <td className='tdsito2'>
+                <td className="tdsito1">
+                  <p className="psito">Fotografía: </p>
+                </td>
+                <td className="tdsito2">
                   <div className="fotografía">
-                    <img src={selectedTicket.url} alt={"FOTO"} style={{ width: '100%', maxHeight: '100%' }} />
+                    <img
+                      src={selectedTicket.foto}
+                      alt={"FOTO"}
+                      style={{ width: "100%", maxHeight: "100%" }}
+                    />
                   </div>
                 </td>
               </tr>
@@ -514,120 +622,222 @@ function Gtickets() {
       )}
       {showModal2 && (
         <div className="modal">
-          <div className='titul'>
+          <div className="titul">
             <p id="titulin2">Historial del ticket 🕗</p>
           </div>
           <div className="modal-content">
-            <span className="close" onClick={closeModal2}>&times;</span>
+            <span className="close" onClick={closeModal2}>
+              &times;
+            </span>
 
             {selectedTicket2.estado === "Sin asignar" && (
-              <div className='datos-sinasignar'>
-                <table className='table-content'>
+              <div className="datos-sinasignar">
+                <table className="table-content">
                   <tr>
-                    <td className='tdsito1'><p className='psito'>Prioridad: </p></td>
-                    <td className='tdsito2'><p className='p'>{selectedTicket2.priori}</p></td>
+                    <td className="tdsito1">
+                      <p className="psito">Prioridad: </p>
+                    </td>
+                    <td className="tdsito2">
+                      <p className="p">{selectedTicket2.priori}</p>
+                    </td>
                   </tr>
                   <tr>
-                    <td className='tdsito1'><p className='psito'>Área: </p></td>
-                    <td className='tdsito2'><p className='p'>{selectedTicket2.area}</p></td>
+                    <td className="tdsito1">
+                      <p className="psito">Área: </p>
+                    </td>
+                    <td className="tdsito2">
+                      <p className="p">{selectedTicket2.areas}</p>
+                    </td>
                   </tr>
                   <tr>
-                    <td className='tdsito1'><p className='psito'>Enviado por: </p></td>
-                    <td className='tdsito2'><p className='p'>{selectedTicket2.nombre} - {selectedTicket2.correoA}</p></td>
+                    <td className="tdsito1">
+                      <p className="psito">Enviado por: </p>
+                    </td>
+                    <td className="tdsito2">
+                      <p className="p">
+                        {selectedTicket2.nom} - {selectedTicket2.corr}
+                      </p>
+                    </td>
                   </tr>
                   <tr>
-                    <td className='tdsito1'><p className='psito'>Fecha de Envío: </p></td>
-                    <td className='tdsito2'><p className='p'>{formatTimestamp(selectedTicket2.fechaDeEnvio)}</p></td>
+                    <td className="tdsito1">
+                      <p className="psito">Fecha de Envío: </p>
+                    </td>
+                    <td className="tdsito2">
+                      <p className="p">
+                        {formatTimestamp(selectedTicket2.fechaDeEnvio)}
+                      </p>
+                    </td>
                   </tr>
                   <tr>
-                    <td className='tdsito1'><p className='psito'>Hora de Envío: </p></td>
-                    <td className='tdsito2'><p className='p'>{hora(selectedTicket2.fechaDeEnvio)}</p></td>
+                    <td className="tdsito1">
+                      <p className="psito">Hora de Envío: </p>
+                    </td>
+                    <td className="tdsito2">
+                      <p className="p">{hora(selectedTicket2.fechaDeEnvio)}</p>
+                    </td>
                   </tr>
                 </table>
                 <br />
-                <button className="ticket-button-gestionar" onClick={() => openModal3(selectedTicket2)}>Gestionar</button>
+                <button
+                  className="ticket-button-gestionar"
+                  onClick={() => openModal3(selectedTicket2)}
+                >
+                  Gestionar
+                </button>
               </div>
             )}
 
             {selectedTicket2.estado === "Asignado" && (
-              <div className='datos-asignado'>
-                <p>Responsable del ticket: {userData2.nombre} {userData2.apellidoPaterno} ({userData2.rol} / {userData2.tipo})</p>
-                <p>Fecha de Asignación: {formatTimestamp(selectedTicket2.fechaAsignado)}</p>
+              <div className="datos-asignado">
+                <p>
+                  Responsable del ticket: {userData2.nombre}{" "}
+                  {userData2.apellidoPaterno} ({userData2.rol} /{" "}
+                  {userData2.tipo})
+                </p>
+                <p>
+                  Fecha de Asignación:{" "}
+                  {formatTimestamp(selectedTicket2.fechaAsignado)}
+                </p>
                 <p>Hora de Asignación: {hora(selectedTicket2.fechaAsignado)}</p>
               </div>
             )}
 
-            {selectedTicket2.estado === "Resuelto" && !selectedTicket2.fechaReapertura && (
-              <div className='datos-resolucion'>
-                <p>Prioridad: {selectedTicket2.priori}</p>
-                <p>Área: {selectedTicket2.area}</p>
-                <p>Fecha de Envío: {formatTimestamp(selectedTicket2.fechaDeEnvio)}</p>
-                <p>Hora de Envío: {hora(selectedTicket2.fechaDeEnvio)}</p>
-                <p>Responsable del ticket: {userData2.nombre} {userData2.apellidoPaterno} ({userData2.rol} / {userData2.tipo})</p>
-                <p>Fecha de Asignación: {formatTimestamp(selectedTicket2.fechaAsignado)}</p>
-                <p>Hora de Asignación: {hora(selectedTicket2.fechaAsignado)}</p>
-                <p>Fecha de Resolución: {formatTimestamp(selectedTicket2.fechaResuelto)}</p>
-                <p>Hora de Resolución: {hora(selectedTicket2.fechaResuelto)}</p>
-                <p>Comentario del desarrollador: {selectedTicket2.comentario}</p>
-                <button className="ticket-button" onClick={() => Reabrir(selectedTicket2.folio)}>Reabrir</button>
-              </div>
-            )}
+            {selectedTicket2.estado === "Resuelto" &&
+              !selectedTicket2.fechaReapertura && (
+                <div className="datos-resolucion">
+                  <p>Prioridad: {selectedTicket2.priori}</p>
+                  <p>Área: {selectedTicket2.area}</p>
+                  <p>
+                    Fecha de Envío:{" "}
+                    {formatTimestamp(selectedTicket2.fechaDeEnvio)}
+                  </p>
+                  <p>Hora de Envío: {hora(selectedTicket2.fechaDeEnvio)}</p>
+                  <p>
+                    Responsable del ticket: {userData2.nombre}{" "}
+                    {userData2.apellidoPaterno} ({userData2.rol} /{" "}
+                    {userData2.tipo})
+                  </p>
+                  <p>
+                    Fecha de Asignación:{" "}
+                    {formatTimestamp(selectedTicket2.fechaAsignado)}
+                  </p>
+                  <p>
+                    Hora de Asignación: {hora(selectedTicket2.fechaAsignado)}
+                  </p>
+                  <p>
+                    Fecha de Resolución:{" "}
+                    {formatTimestamp(selectedTicket2.fechaResuelto)}
+                  </p>
+                  <p>
+                    Hora de Resolución: {hora(selectedTicket2.fechaResuelto)}
+                  </p>
+                  <p>
+                    Comentario del desarrollador: {selectedTicket2.comentario}
+                  </p>
+                  <button
+                    className="ticket-button"
+                    onClick={() => Reabrir(selectedTicket2.folio)}
+                  >
+                    Reabrir
+                  </button>
+                </div>
+              )}
 
             {selectedTicket2.fechaReapertura && (
-              <div className='datos-reabierto'>
+              <div className="datos-reabierto">
                 <p>Estado inicial del reporte antes de la reapertura</p>
                 <p>----------------------</p>
-                <p>Fecha de Envío: {formatTimestamp(selectedTicket2.fechaDeEnvio)}</p>
+                <p>
+                  Fecha de Envío:{" "}
+                  {formatTimestamp(selectedTicket2.fechaDeEnvio)}
+                </p>
                 <p>Hora de Envío: {hora(selectedTicket2.fechaDeEnvio)}</p>
-                <p>Responsable del ticket: {userData2.nombre} {userData2.apellidoPaterno} ({userData2.rol} / {userData2.tipo})</p>
-                <p>Fecha de Asignación: {formatTimestamp(selectedTicket2.fechaAsignado)}</p>
+                <p>
+                  Responsable del ticket: {userData2.nombre}{" "}
+                  {userData2.apellidoPaterno} ({userData2.rol} /{" "}
+                  {userData2.tipo})
+                </p>
+                <p>
+                  Fecha de Asignación:{" "}
+                  {formatTimestamp(selectedTicket2.fechaAsignado)}
+                </p>
                 <p>Hora de Asignación: {hora(selectedTicket2.fechaAsignado)}</p>
-                <p>Fecha de Resolución: {formatTimestamp(selectedTicket2.fechaResuelto)}</p>
+                <p>
+                  Fecha de Resolución:{" "}
+                  {formatTimestamp(selectedTicket2.fechaResuelto)}
+                </p>
                 <p>Hora de Resolución: {hora(selectedTicket2.fechaResuelto)}</p>
-                <p>Comentario del desarrollador: {selectedTicket2.comentario}</p>
+                <p>
+                  Comentario del desarrollador: {selectedTicket2.comentario}
+                </p>
                 <p>----------------------</p>
-                <p>Fecha de Reapertura: {formatTimestamp(selectedTicket2.fechaReapertura)}</p>
-                <p>Hora de Reapertura: {hora(selectedTicket2.fechaReapertura)}</p>
-                <p>Motivo de la reapertura: {selectedTicket2.motivoReapertura}</p>
-                <p>Fecha de Resolución dos: {formatTimestamp(selectedTicket2.fechaSReapertura)}</p>
-                <p>Hora de Resolución: {hora(selectedTicket2.fechaSReapertura)}</p>
-                <p>Comentario del desarrollador: {selectedTicket2.comentarioR}</p>
+                <p>
+                  Fecha de Reapertura:{" "}
+                  {formatTimestamp(selectedTicket2.fechaReapertura)}
+                </p>
+                <p>
+                  Hora de Reapertura: {hora(selectedTicket2.fechaReapertura)}
+                </p>
+                <p>
+                  Motivo de la reapertura: {selectedTicket2.motivoReapertura}
+                </p>
+                <p>
+                  Fecha de Resolución dos:{" "}
+                  {formatTimestamp(selectedTicket2.fechaSReapertura)}
+                </p>
+                <p>
+                  Hora de Resolución: {hora(selectedTicket2.fechaSReapertura)}
+                </p>
+                <p>
+                  Comentario del desarrollador: {selectedTicket2.comentarioR}
+                </p>
               </div>
             )}
           </div>
         </div>
       )}
 
-      {showModal3 && (
-        <div className="modal">
-          <div className="modal-content-">
-            <span className="close" onClick={closeModal3}>&times;</span>
-            <p id="titulin3">Gestionar</p>
-            <div className='tablita'>
-              {Array.isArray(userData) &&
-                userData.map((user, index) => (
-                  <tr key={index} className="ticket-body">
-                    <td>{user.nombre}</td>
-                    <td>{user.tipo}</td>
-                    <td>{user.correo}</td>
-                    <td>
-                      <select>
-                        {user.foliosGuardados.map((folio, index) => (
-                          <option key={index} onClick={() => openModal(folio)}>{folio}</option>
-                        ))}
-                      </select>
-                    </td>
-                    <td>
-                      <button id="reasignar-btn" onClick={() => Asignar(selectedTicket.folio, user, selectedTicket)}>Asignar</button>
-                    </td>
-                  </tr>
-                ))}
-            </div>
-          </div>
-        </div>
-      )}
+{showModal3 && (
+  <div className="modal">
+    <div className="modal-content-">
+      <span className="close" onClick={closeModal3}>
+        &times;
+      </span>
+      <p id="titulin3">Gestionar</p>
+      <div className="tablita">
+        <table>
+          {Array.isArray(userData) && userData.map((user, index) => (
+            <tr key={index} className="ticket-body">
+              <td>{user.nombre}</td>
+              <td>{user.tipo}</td>
+              <td>{user.correo}</td>
+              <td>
+                <select>
+                  {user.foliosGuardados && user.foliosGuardados.map((folio, folioIndex) => (
+                    <option key={folioIndex} onClick={() => openModal(folio)}>
+                      {folio}
+                    </option>
+                  ))}
+                </select>
+              </td>
+              <td>
+                <button
+                  id="reasignar-btn"
+                  onClick={() => Asignar(selectedTicket.folio, user, selectedTicket)}
+                >
+                  Asignar
+                </button>
+              </td>
+            </tr>
+          ))}
+        </table>
+      </div>
     </div>
+  </div>
+)}
 
+    </div>
   );
 }
 export default Gtickets;

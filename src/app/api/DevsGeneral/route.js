@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { db, collection, getDocs, query, where} from "../../../../firebase";
+import { enc } from "@/scripts/Cifrado/Cifrar";
 
 export async function GET(request) {
   try {
@@ -11,7 +12,8 @@ export async function GET(request) {
  
     usuariosSnapShot.forEach((doc) => {
       const usuario = doc.data();
-      usuarios.push(usuario);
+      const userEnc = enc(usuario)
+      usuarios.push(userEnc);
     });
 
     return NextResponse.json(usuarios);
