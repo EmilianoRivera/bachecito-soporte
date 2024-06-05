@@ -18,7 +18,7 @@ function Landing() {
           </section>
           <div className="banner_img">
             <br /><br /><br />
-            <img src="https://i.postimg.cc/0jPzB8Y0/laptop-support.png" alt="" />
+            <img src="https://i.postimg.cc/y8kVhQ8q/laptop-support.png" alt="" />
           </div>
         </section>
 

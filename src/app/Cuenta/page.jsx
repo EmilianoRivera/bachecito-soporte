@@ -60,6 +60,31 @@ function Administrador() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [showPassword, setShowPassword] = useState(false); // Estado para controlar la visibilidad de la contraseña
+
+  //VALIDACIÓN Correo
+  const handleMailKeyDown = (event) => {
+    const key = event.key;
+    const value = event.target.value;
+    if (key === "Backspace" || (key === "Delete" && event.target.selectionStart !== event.target.selectionEnd)) {
+      return;
+    }
+    if (!/[A-Za-z0-9_@.-]/.test(key) || value.length >= 100) {
+      event.preventDefault();
+    }
+  };
+
+  //VALIDACIÓN Contraseña
+  const handlePassKeyDown = (event) => {
+    const key = event.key;
+    const value = event.target.value;
+    if (key === "Backspace" || (key === "Delete" && event.target.selectionStart !== event.target.selectionEnd)) {
+      return;
+    }
+    if (!/[A-Za-z0-9-_]/.test(key) || value.length >= 20) {
+      event.preventDefault();
+    }
+  };
 
   const handleSignIn = async (event) => {
     event.preventDefault();
@@ -150,10 +175,39 @@ function Administrador() {
           </svg>
 
           <form className='centered' onSubmit={handleSignIn}>
-            <label >Correo</label>
-            <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} id="correo" />
-            <label >Contraseña</label>
-            <input type="text" value={password} onChange={(e) => setPassword(e.target.value)} id="contraseña" />
+          <label className="label-admin">Correo</label>
+            <input 
+              className="input-admin" 
+              type="email"  
+              name="email"
+              onKeyDown={handleMailKeyDown}
+              minLength={10}
+              value={email}  
+              required
+              onChange={(e) => setEmail(e.target.value)} 
+              id="correo" 
+            />
+            <label className="label-admin" id="margin">Contraseña</label>
+            <div className="password-container">
+              <input 
+                className="input-admin" 
+                type={showPassword ? "text" : "password"} 
+                value={password}  
+                onKeyDown={handlePassKeyDown}
+                minLength={8}
+                name="password"
+                id="contraseña" 
+                onChange={(e) => setPassword(e.target.value)}  
+                required
+              />
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                <img src={showPassword ? "https://i.postimg.cc/52rq6typ/ojos-cruzados-1.png" : "https://i.postimg.cc/pXqBMCtw/ojo-1.png"}/>
+              </button>
+            </div>
             <button type="submit" id="iniciarSesion-btn">Iniciar Sesión</button>
           </form>
         </div>
@@ -172,6 +226,7 @@ function Administrador() {
         </div>
 
       </div>
+      
     </div>
   )
 }

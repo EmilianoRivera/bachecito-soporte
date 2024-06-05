@@ -287,3 +287,34 @@ body {
         transform: translateY(0);
     }
 }
+
+
+
+::-webkit-scrollbar {
+    width: 5px;
+    /* Ancho de la barra de desplazamiento */
+  }
+  
+  
+  /* Estilo para el riel de la barra de desplazamiento */
+  ::-webkit-scrollbar-track {
+    background-color: var(--background-color-2);
+    /* Color del fondo del riel */
+  }
+  
+  
+  /* Estilo para el pulgar (scrollbar) */
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--background-color-4);
+    /* Color del pulgar */
+    border-radius: 6px;
+    /* Borde redondeado del pulgar */
+    transition: .5s;
+  }
+  
+  
+  /* Cambia el color del pulgar cuando el mouse está sobre él */
+  ::-webkit-scrollbar-thumb:hover {
+    transition: 1s;
+    background-color: #FF9F49;
+  }
