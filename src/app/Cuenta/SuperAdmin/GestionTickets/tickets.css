@@ -185,9 +185,8 @@ td button:hover {
 .ticket-body {
   margin-bottom: 20px;
   padding: 15px;
-  border: 1px solid #ddd;
   border-radius: 8px;
-  background-color: #fff;
+  background-color: var(--background-color);
 }
 
 /* Estilos para la tabla */
@@ -207,10 +206,11 @@ th {
 .td {
   padding: 8px;
   border-radius: 13px;
+  background-color: var(--background-color);
 }
 
 .sticky-top,.ticket-body:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color: #6F6F6F;
   border-radius: 13px
 }
 
@@ -235,7 +235,7 @@ th {
 }
 
 .titul{
-  background-color: white;
+  background-color: var(--background-color);
   margin: 0 auto;
   margin-top: 5%;
   margin-bottom: 1%;
@@ -254,7 +254,7 @@ th {
 
 /* Contenido del modal */
 .modal-content {
-  background-color: white;
+  background-color: var(--background-color);
   margin: auto;
   /* Centrar vertical y horizontalmente */
   padding: 20px;
@@ -266,7 +266,7 @@ th {
 }
 
 .modal-content- {
-  background-color: white;
+  background-color: var(--background-color);
   margin: auto;
   margin-top: 5%;
   /* Centrar vertical y horizontalmente */
@@ -300,7 +300,7 @@ th {
 
 .modal-content .table-content .tdsito2{
   padding-left: 15px;
-  background-color: #F1F1F1;
+  background-color: var(--background-color-2);
   border-radius: 15px;
 }
 
@@ -321,7 +321,7 @@ th {
 }
 
 .modal .modal-content .p {
-  color: #6F6F6F;
+  color: var(--text-color);
 }
 
 .modal .modal-content .psito {

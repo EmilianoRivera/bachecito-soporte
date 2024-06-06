@@ -134,7 +134,7 @@ td button:hover {
 .ticket-body {
   margin-bottom: 20px;
   padding: 15px;
-  border: 1px solid #ddd;
+  border: 1px solid;
   border-radius: 8px;
   background-color: #fff;
 }
@@ -155,10 +155,11 @@ th{
 td {
   padding: 8px;
   border-radius: 13px;
+  background-color: var(--background-color);
 }
 
 tr:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color: var(--background-color-2);
   border-radius: 13px
 }
 
@@ -178,7 +179,7 @@ tr:nth-child(even) {
 
 /* Contenido del modal */
 .titul{
-  background-color: white;
+  background-color: var(--background-color);
   margin: 0 auto;
   margin-top: 5%;
   margin-bottom: 1%;
@@ -197,7 +198,7 @@ tr:nth-child(even) {
 
 /* Contenido del modal */
 .modal-content {
-  background-color: white;
+  background-color: var(--background-color);
   margin: auto;
   /* Centrar vertical y horizontalmente */
   padding: 20px;
@@ -225,7 +226,7 @@ tr:nth-child(even) {
 }
 
 .modal .modal-content .p {
-  color: #6F6F6F;
+  color: var(--text-color);
 }
 
 .modal .modal-content .psito {
@@ -250,7 +251,7 @@ tr:nth-child(even) {
 
 .modal-content .table-content .tdsito2{
   padding-left: 15px;
-  background-color: #F1F1F1;
+  background-color: var(--background-color-2);
   border-radius: 15px;
 }
 

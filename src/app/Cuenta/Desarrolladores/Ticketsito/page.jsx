@@ -255,7 +255,7 @@ function Tickets() {
       {showModal && selectedTicket && (
         <div className="modal">
           <div className="titul">
-            <p className="titulinn">Detalles del ticket 📑</p>
+            <p id="titulinn">Detalles del ticket 📑</p>
           </div>
           <div className="modal-content">
             <span className="close" onClick={closeModal}>&times;</span>

@@ -354,11 +354,13 @@ function MisTickets() {
                 </td>
               </tr>
             </table>
+            <br />
             {selectedTicket.estado === "Asignado" && (
               <button className= "ticket-button" onClick={() => openCommentModal(selectedTicket)}>
                 Resuelto
               </button>
             )}
+            <br />
             {selectedTicket.estado === "Reabierto" && (
               <button className= "ticket-button"onClick={() => openCommentModal2(selectedTicket)}>
                 Resuelto 2
@@ -396,12 +398,18 @@ function MisTickets() {
               &times;
             </span>
             <p>¿Deseas agregar un comentario?2</p>
+            <br />
             <textarea
+              rows="1" // Esto evita que el textarea se ajuste automáticamente en altura
+              cols="50"
+              style={{ resize: "none" }}
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               placeholder="Agrega tu comentario aquí..."
             />
+            <br /><br /><br/>
             <button
+              id="btn-resuelto"
               className= "ticket-button"
               onClick={() => cambiarEstado2(selectedTicket.folio, comment)}
             >
