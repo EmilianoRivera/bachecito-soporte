@@ -1,13 +1,27 @@
 "use client"
 import Link from 'next/link'
-import React from 'react'
+import React,{ useContext, useEffect}  from 'react'
 import { auth } from "../../../../firebase";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import "./style.css";
+import AuthContext from "../../../../context/AuthContext";
+import { useAuthUser } from "../../../../hooks/UseAuthUser";
 
 function Desarrolladores() {
   const router = useRouter();
+  useAuthUser();
+  const { isLogged } = useContext(AuthContext);
+  useEffect(() => {
+    if (!isLogged || !auth.currentUser?.emailVerified) {
+      router.push("/Cuenta");
+    }
+  }, [isLogged, auth.currentUser]);
+
+
+  if (!isLogged || !auth.currentUser?.emailVerified) {
+    return null; // O puedes mostrar un mensaje de "No autorizado"
+  }
   const CerrarSesion = () => {
     signOut(auth)
       .then(() => {

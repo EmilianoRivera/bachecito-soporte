@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useContext,useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import {
   auth,
@@ -12,8 +12,14 @@ import {
 } from "../../../../../firebase";
 import "./tickets.css";
 import { desc, enc } from "@/scripts/Cifrado/Cifrar";
+import AuthContext from "../../../../../context/AuthContext";
+import { useAuthUser } from "../../../../../hooks/UseAuthUser";
+
 
 function MisTickets() {
+  useAuthUser();
+  const { isLogged } = useContext(AuthContext);
+
   const textareaRef = useRef(null);
   const [userData, setUserData] = useState({});
   const [userTickets, setUserTickets] = useState([]);
@@ -32,7 +38,16 @@ function MisTickets() {
     textareaRef.current.style.height =
     textareaRef.current.scrollHeight + "px";
   }
+  useEffect(() => {
+    if (!isLogged || !auth.currentUser?.emailVerified) {
+      router.push("/Cuenta");
+    }
+  }, [isLogged, auth.currentUser]);
 
+
+  if (!isLogged || !auth.currentUser?.emailVerified) {
+    return null; // O puedes mostrar un mensaje de "No autorizado"
+  }
   const openModal = (ticket) => {
     setSelectedTicket(ticket);
     setShowModal(true);

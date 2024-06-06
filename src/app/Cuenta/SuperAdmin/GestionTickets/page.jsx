@@ -1,10 +1,13 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useContext,useState, useEffect } from "react";
 import { auth, db } from "../../../../../firebase";
 import "./tickets.css";
 import { useRouter } from "next/navigation";
 import { desc, enc } from "@/scripts/Cifrado/Cifrar";
 import "../../../../components/navbar";
+import AuthContext from "../../../../../context/AuthContext";
+import { useAuthUser } from "../../../../../hooks/UseAuthUser";
+
 
 import {
   updateDoc,
@@ -17,6 +20,9 @@ import {
 import "./tickets.css";
 
 function Gtickets() {
+  useAuthUser();
+  const { isLogged } = useContext(AuthContext);
+
   const [tick, setTick] = useState([]);
   const [userData, setUserData] = useState({});
   const [userData2, setUserData2] = useState({});
@@ -47,7 +53,16 @@ function Gtickets() {
         });
       }
     }, [showModal3]); */
-
+    useEffect(() => {
+      if (!isLogged || !auth.currentUser?.emailVerified) {
+        router.push("/Cuenta");
+      }
+    }, [isLogged, auth.currentUser]);
+  
+  
+    if (!isLogged || !auth.currentUser?.emailVerified) {
+      return null; // O puedes mostrar un mensaje de "No autorizado"
+    }
   const openModal = (ticket) => {
     setSelectedTicket(ticket);
     setShowModal(true);

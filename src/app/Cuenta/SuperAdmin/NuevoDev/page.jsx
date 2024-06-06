@@ -1,11 +1,16 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext,useState } from "react";
 import { useRouter } from "next/navigation";
-
+import AuthContext from "../../../../../context/AuthContext"
+import { useAuthUser } from "../../../../../hooks/UseAuthUser";
+ 
 import "./style.css";
 import { enc } from "@/scripts/Cifrado/Cifrar";
 
 function NuevoDev() {
+  useAuthUser();
+  const { isLogged } = useContext(AuthContext);
+
   const [nombre, setNombre] = useState("Sin nombre");
   const [apmat, setApmat] = useState("Sin apmat");
   const [appat, setAppat] = useState("Sin appat");
@@ -14,6 +19,16 @@ function NuevoDev() {
   const [fechaNacimiento, setFechaNacimiento] = useState("Sin fecha nacimiento");
   const [tipo, setTipo] = useState("Sin tipo");
   const router = useRouter();
+  useEffect(() => {
+    if (!isLogged || !auth.currentUser?.emailVerified) {
+      router.push("/Cuenta");
+    }
+  }, [isLogged, auth.currentUser]);
+
+
+  if (!isLogged || !auth.currentUser?.emailVerified) {
+    return null; // O puedes mostrar un mensaje de "No autorizado"
+  }
 
   const handleNombre = (e) => {
     setNombre(e.target.value);
