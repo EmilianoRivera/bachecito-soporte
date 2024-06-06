@@ -1,14 +1,25 @@
-"use client"
-import React from 'react';
+"use client";
+import React, { useContext, useEffect } from 'react';
 import { auth } from "../../../../firebase";
+import AuthContext from "../../../../context/AuthContext";
+import { useAuthUser } from "../../../../hooks/UseAuthUser";
+
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
-
-import "./style.css"
-// Importar los estilos CSS
+import "./style.css";
 
 function SuperAdmin() {
+  useAuthUser();
+  const { isLogged } = useContext(AuthContext);
+
   const router = useRouter();
+  
+  useEffect(() => {
+    if (!isLogged || !auth.currentUser?.emailVerified) {
+      router.push("/Cuenta");
+    }
+  }, [isLogged, auth.currentUser]);
+
   const CerrarSesion = () => {
     signOut(auth)
       .then(() => {
@@ -18,6 +29,10 @@ function SuperAdmin() {
       .catch((error) => {
         console.error("Error al cerrar sesión:", error);
       });
+  };
+
+  if (!isLogged || !auth.currentUser?.emailVerified) {
+    return null; // O puedes mostrar un mensaje de "No autorizado"
   }
 
   return (
@@ -33,7 +48,7 @@ function SuperAdmin() {
         <div className="opcionesSuperAdmin">
           <a href="/Cuenta/SuperAdmin/NuevoDev"> NUEVOS DEVS </a>
           <br></br>
-    {/*       <a href="/Cuenta/SuperAdmin/GestionDevs"> GESTIÓN DEVS </a>
+          {/* <a href="/Cuenta/SuperAdmin/GestionDevs"> GESTIÓN DEVS </a>
           <br></br> */}
           <a href="/Cuenta/SuperAdmin/GestionTickets"> GESTIÓN TICKETS </a>
           <br></br>
@@ -54,10 +69,8 @@ function SuperAdmin() {
         </div>
         
       </div>
-
     </div>
   );
 }
 
 export default SuperAdmin;
-

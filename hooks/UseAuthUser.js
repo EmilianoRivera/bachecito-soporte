@@ -11,7 +11,7 @@ export const useAuthUser = () => {
   const { push } = useRouter();
   const pathname = usePathname();
   const { setisLogged, setisSuperAdmin, setIsDev } = useContext(AuthContext); 
-  
+  console.log("first")
 
   useEffect(() => {
 
@@ -20,7 +20,7 @@ export const useAuthUser = () => {
     }  else { 
       onAuthStateChanged(auth, async (user) => {
         let userLogged = user === null ? false : true;
-  
+  console.log(user)
   
         if (!userLogged) {
           if (pathname === "/Cuenta") {
