@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import {
   auth,
@@ -14,6 +14,7 @@ import "./tickets.css";
 import { desc, enc } from "@/scripts/Cifrado/Cifrar";
 
 function MisTickets() {
+  const textareaRef = useRef(null);
   const [userData, setUserData] = useState({});
   const [userTickets, setUserTickets] = useState([]);
   const [filterPriority, setFilterPriority] = useState("");
@@ -25,6 +26,12 @@ function MisTickets() {
   const [showModal, setShowModal] = useState(false);
   const [showCommentModal, setShowCommentModal] = useState(false);
   const [showCommentModal2, setShowCommentModal2] = useState(false);
+
+  if (textareaRef.current) {
+    textareaRef.current.style.height = "auto";
+    textareaRef.current.style.height =
+    textareaRef.current.scrollHeight + "px";
+  }
 
   const openModal = (ticket) => {
     setSelectedTicket(ticket);
@@ -377,13 +384,18 @@ function MisTickets() {
               &times;
             </span>
             <p>¿Deseas agregar un comentario?</p>
-            <textarea
+            <div className="wrapper">
+              <textarea
+              ref={textareaRef}
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               placeholder="Agrega tu comentario aquí..."
             />
+            </div>
+            
             <button
-              className= "ticket-button"
+              id="btn-resuelto"
+              className= "ticket-buttonn"
               onClick={() => cambiarEstado(selectedTicket.folio, comment)}
             >
               Enviar
@@ -399,7 +411,8 @@ function MisTickets() {
             </span>
             <p>¿Deseas agregar un comentario?2</p>
             <br />
-            <textarea
+            <div className="wrapper">
+              <textarea
               rows="1" // Esto evita que el textarea se ajuste automáticamente en altura
               cols="50"
               style={{ resize: "none" }}
@@ -407,6 +420,8 @@ function MisTickets() {
               onChange={(e) => setComment(e.target.value)}
               placeholder="Agrega tu comentario aquí..."
             />
+            </div>
+            
             <br /><br /><br/>
             <button
               id="btn-resuelto"

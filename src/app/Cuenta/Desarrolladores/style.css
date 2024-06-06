@@ -64,131 +64,77 @@
     width: 10%;
 }
 
-/* burbujas */
+/* OLAS */
 
-.burbuja {
-    border-radius: 50%;
-    background: #FF9F49;
-    opacity: .3;
+section{
+    position: relative;
+    width: 100%;
+    height: 35.5vh;
+    background: var(--background-color);
+    overflow: hidden;
+}
 
+section .wave{
     position: absolute;
-    bottom: -150;
-
-    animation: burbujas 3s linear infinite;
-}
-
-.burbuja:nth-child(1) {
-    width: 80px;
-    height: 80px;
-    left: 5%;
-    animation-duration: 3s;
-    animation-delay: 3s;
-}
-
-.burbuja:nth-child(2) {
-    width: 100px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     height: 100px;
-    left: 35%;
-    animation-duration: 3s;
-    animation-delay: 5s;
+    background: url("https://i.postimg.cc/90HV9CDY/image.png");
+    background-size: 1000px 100px;
 }
 
-.burbuja:nth-child(3) {
-    width: 20px;
-    height: 20px;
-    left: 15%;
-    animation-duration: 1.5s;
-    animation-delay: 7s;
+section .wave.wave1{
+    animation: animate 30s linear infinite;
+    z-index: 1000;
+    opacity: 1;
+    animation-delay: 0s;
+    bottom: 0;
 }
 
-.burbuja:nth-child(4) {
-    width: 50px;
-    height: 50px;
-    left: 90%;
-    animation-duration: 6s;
-    animation-delay: 3s;
+section .wave.wave2{
+    animation: animate2 15s linear infinite;
+    z-index: 999;
+    opacity: 0.5;
+    animation-delay: -5s;
+    bottom: 10px;
 }
 
-.burbuja:nth-child(5) {
-    width: 70px;
-    height: 70px;
-    left: 65%;
-    animation-duration: 3s;
-    animation-delay: 1s;
+section .wave.wave3{
+    animation: animate 30s linear infinite;
+    z-index: 998;
+    opacity: 0.2;
+    animation-delay: -2s;
+    bottom: 15;
 }
 
-.burbuja:nth-child(6) {
-    width: 20px;
-    height: 20px;
-    left: 50%;
-    animation-duration: 4s;
-    animation-delay: 5s;
+section .wave.wave4{
+    animation: animate2 5s linear infinite;
+    z-index: 997;
+    opacity: 0.7;
+    animation-delay: -5s;
+    bottom: 20px;
 }
 
-.burbuja:nth-child(7) {
-    width: 20px;
-    height: 20px;
-    left: 50%;
-    animation-duration: 4s;
-    animation-delay: 5s;
-}
-
-.burbuja:nth-child(8) {
-    width: 100;
-    height: 100px;
-    left: 52%;
-    animation-duration: 5s;
-    animation-delay: 5s;
-}
-
-.burbuja:nth-child(9) {
-    width: 65px;
-    height: 65px;
-    left: 51%;
-    animation-duration: 3s;
-    animation-delay: 2s;
-}
-
-.burbuja:nth-child(10) {
-    width: 40px;
-    height: 40px;
-    left: 35%;
-    animation-duration: 3s;
-    animation-delay: 4s;
-}
-
-
-@keyframes burbujas {
-    0% {
-        bottom: 0;
-        opacity: 0;
+@keyframes animate{
+    0%{
+        background-position-x: 0;
     }
-
-    30% {
-        transform: translateX(30px);
-    }
-
-    50% {
-        opacity: .4;
-    }
-
-    100% {
-        bottom: 100vh;
-        opacity: 0;
+    100%{
+        background-position-x: 1000px;
     }
 }
 
-@keyframes movimiento {
-    0% {
-        transform: translateY(0);
+@keyframes animate2{
+    0%{
+        background-position-x: 0;
     }
-
-    50% {
-        transform: translateY(30px);
-    }
-
-    100% {
-        transform: translateY(0);
+    100%{
+        background-position-x: 1000px;
     }
 }
+
+
+
+
 

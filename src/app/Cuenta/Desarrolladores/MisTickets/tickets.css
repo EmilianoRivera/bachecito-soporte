@@ -213,6 +213,11 @@ tr:nth-child(even) {
   padding: 8px;
 }
 
+.modal .modal-content .wrapper {
+  border-radius: 5px;
+  margin-bottom: 1%;
+}
+
 .modal .modal-content textarea{
     background-color: var(--background-color-6);
     color: var(--text-color-3);
@@ -228,28 +233,25 @@ tr:nth-child(even) {
     width: 71%;
     height: 2%;
     transition: all 0.2s;
+    resize: none;
+    margin-top: 1%;
 }
 
-#btn-resuelto{
-    margin-top: 10%;
-
-}
-
- textarea:hover {
+.modal .modal-content textarea:hover {
   cursor: pointer;
   outline-color: #FF9F49;
 
 }
 
- textarea:focus {
+.modal .modal-content textarea:focus {
   cursor: text;
   color: var(--text-color);
   font-family: "Baloo Thambi 2", system-ui;
   border-color: #FF9F49;
 }
 
- textarea::placeholder {
-  color: #D1D1D1;
+.modal .modal-content textarea::placeholder {
+  color: var(--text-color-3);
 }
 
 .modal .modal-content .p {
@@ -323,6 +325,28 @@ tr:nth-child(even) {
   /* Cursor al pasar sobre el botón */
   transition: .5s;
   font-family: "Baloo Thambi 2", system-ui;
+}
+
+.ticket-buttonn{
+  padding: 10px 20px;
+  background-color: #FF9F49;
+  /* Color de fondo */
+  color: white;
+  /* Color del texto */
+  border: none;
+  /* Sin borde */
+  border-radius: 10px;
+  /* Borde redondeado */
+  cursor: pointer;
+  /* Cursor al pasar sobre el botón */
+  transition: .5s;
+  font-family: "Baloo Thambi 2", system-ui;
+  margin-top: 10%;
+}
+
+#btn-resuelto{
+  margin-top: 5%;
+
 }
 
 
