@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@400..800&family=Nunito:ital,wght@0,200..1000;1,200..1000&display =intercambiar');
 
 .body-tickets-dev {
-    background-color: white;
+    background-color: var(--background-color);
     font-family: "Baloo Thambi 2", system-ui;
 }
 
@@ -20,11 +20,11 @@ select {
   outline: 0;
   box-shadow: none;
   border: 0 !important;
-  background: #F1F1F1;
+  background: var(--background-color-2);
   background-image: none;
   flex: 1;
   padding: 0 .3em;
-  color: #6F6F6F;
+  color: var(--text-color);
   cursor: pointer;
   font-size: .9em;
   font-family: "Baloo Thambi 2", system-ui;
@@ -41,10 +41,10 @@ select::-ms-expand {
   width: 15em;
   height: 2.8em;
   line-height: 3;
-  background: #D1D1D1;
+  background: var(--background-color-6);
   overflow: hidden;
   border-radius: 15px;
-  color: #1E1E1E;
+  color: var(--text-color-7);
 }
 
 .select::after {
@@ -53,14 +53,14 @@ select::-ms-expand {
   top: 0;
   right: 0;
   padding: 0 1em;
-  background: #D1D1D1;
+  background: var(--background-color-6);
   cursor: pointer;
   pointer-events: none;
   transition: .25s all ease;
 }
 
 .select:hover::after {
-  color: #1E1E1E;
+  color: var(--text-color-7);
 }
 
 .buscador {
@@ -70,8 +70,8 @@ select::-ms-expand {
   transition: .2s;
   outline: none;
   border: none;
-  background-color: #F1F1F1;
-  color: #6F6F6F;  
+  background-color: var(--background-color-2);
+  color: var(--text-color);  
   border-radius: 15px;
   font-family: "Baloo Thambi 2", system-ui;
   font-size: 15px;
@@ -101,10 +101,10 @@ td button:hover {
   border-radius: 15px;
   padding: 20px;
   overflow-x: auto; /* Agregamos un desbordamiento horizontal para la tabla */
-  background-color: rgba(255, 255, 255, 0.3); /* Fondo semitransparente */
+  background-color: var(--background-color); /* Fondo semitransparente */
   backdrop-filter: blur(10px); /* Aplicar el efecto borroso */
   -webkit-backdrop-filter: blur(10px); /* Compatibilidad con navegadores webkit */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 6px var(--background-color-11);
 }
 
 .ticket-header {
@@ -134,9 +134,9 @@ table {
 
 th{
   padding: 8px;
-  background-color: #D1D1D1;
+  background-color: var(--background-color-6);
   border-radius: 13px;
-  color: #1E1E1E;
+  color: var(--text-color-7);
 }
 
 td {

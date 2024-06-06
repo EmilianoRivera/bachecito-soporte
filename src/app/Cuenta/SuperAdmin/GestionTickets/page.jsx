@@ -4,6 +4,7 @@ import { auth, db } from "../../../../../firebase";
 import "./tickets.css";
 import { useRouter } from "next/navigation";
 import { desc, enc } from "@/scripts/Cifrado/Cifrar";
+import "../../../../components/navbar";
 
 import {
   updateDoc,

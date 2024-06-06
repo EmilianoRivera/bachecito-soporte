@@ -97,7 +97,6 @@ function NuevoDev() {
 
           <div className="formularioNuevoDev">
             <form onSubmit={handleRegistroDev}>
-
               <input className="datosDev" type="text" onChange={handleNombre} placeholder="Nombre Completo" />
               <br />
               <div className="apellidos_Container">

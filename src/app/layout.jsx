@@ -1,6 +1,8 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import "./globals.css";
+import Navbar from '../components/Navbar';
+
 
 /*
 export const metadata = {
@@ -28,6 +30,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+        <div>
+          <Navbar/>
+        </div>
         <button className="btn-dark" onClick={() => setDarkMode(!darkMode)}>
           {darkMode ? <img src="https://i.postimg.cc/90d68651/dom-1.png" /> : <img className="lunaaaa" src="https://i.postimg.cc/cLf0dypr/luna.png" />}
         </button>
