@@ -6,8 +6,7 @@ import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import "./style.css";
 import AuthContext from "../../../../context/AuthContext";
-import { useAuthUser } from "../../../../hooks/UseAuthUser";
-
+import { useAuthUser } from "../../../../hooks/useAuthUser";
 function Desarrolladores() {
   const router = useRouter();
   useAuthUser();
