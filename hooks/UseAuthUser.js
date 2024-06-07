@@ -45,7 +45,7 @@ export const useAuthUser = () => {
             console.log(superAdmin)
             if(userData.rol === "superAdmin"){
               superAdmin = userData.rol
-              setIsAdmin(superAdmin);
+              setisSuperAdmin(superAdmin);
             } else {
              dev = userData.rol === "dev"
              console.log(dev)
@@ -62,7 +62,7 @@ export const useAuthUser = () => {
             }
           } else {
             console.log("El documento del usuario no existe en Firestore");
-            setIsAdmin(false);
+            setisSuperAdmin(false);
             if (pathname === "/Cuenta") {
               push("/"); 
             }

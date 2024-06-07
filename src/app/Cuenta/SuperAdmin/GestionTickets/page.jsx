@@ -1,12 +1,10 @@
 "use client";
-import React, { useContext,useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { auth, db } from "../../../../../firebase";
 import "./tickets.css";
 import { useRouter } from "next/navigation";
 import { desc, enc } from "@/scripts/Cifrado/Cifrar";
 import "../../../../components/navbar";
-import AuthContext from "../../../../../context/AuthContext";
-import { useAuthUser } from "../../../../../hooks/UseAuthUser";
 
 
 import {
@@ -20,8 +18,6 @@ import {
 import "./tickets.css";
 
 function Gtickets() {
-  useAuthUser();
-  const { isLogged } = useContext(AuthContext);
 
   const [tick, setTick] = useState([]);
   const [userData, setUserData] = useState({});
@@ -39,30 +35,6 @@ function Gtickets() {
   const [showModal2, setShowModal2] = useState(false);
   const [showModal3, setShowModal3] = useState(false);
 
-  /*   useEffect(() => {
-      console.log("esto es de mi use effect");
-  
-      if (showModal3) {
-        console.log("mi registro",userData);
-        userData.map((value, key)=> {
-          console.log(value)
-        })
-        // Aquí recorro userData que es el objeto
-        Object.entries(userData).forEach(([key, value]) => {
-          console.log(`${key}: ${value}`);
-        });
-      }
-    }, [showModal3]); */
-    useEffect(() => {
-      if (!isLogged || !auth.currentUser?.emailVerified) {
-        router.push("/Cuenta");
-      }
-    }, [isLogged, auth.currentUser]);
-  
-  
-    if (!isLogged || !auth.currentUser?.emailVerified) {
-      return null; // O puedes mostrar un mensaje de "No autorizado"
-    }
   const openModal = (ticket) => {
     setSelectedTicket(ticket);
     setShowModal(true);

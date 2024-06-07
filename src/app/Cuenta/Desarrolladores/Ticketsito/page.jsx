@@ -12,13 +12,9 @@ import {
   getDocs,
   getDoc,
 } from "firebase/firestore";
-import AuthContext from "../../../../../context/AuthContext";
-import { useAuthUser } from "../../../../../hooks/UseAuthUser";
 
 
 function Tickets() {
-  useAuthUser();
-  const { isLogged } = useContext(AuthContext);
 
   const [filterPriority, setFilterPriority] = useState("");
   const [searchFolio, setSearchFolio] = useState("");
@@ -27,16 +23,7 @@ function Tickets() {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState(null);
-  useEffect(() => {
-    if (!isLogged || !auth.currentUser?.emailVerified) {
-      router.push("/Cuenta");
-    }
-  }, [isLogged, auth.currentUser]);
 
-
-  if (!isLogged || !auth.currentUser?.emailVerified) {
-    return null; // O puedes mostrar un mensaje de "No autorizado"
-  }
   const openModal = (ticket) => {
     setSelectedTicket(ticket);
     setShowModal(true);

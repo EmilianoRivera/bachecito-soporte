@@ -2,7 +2,7 @@
 import React, { useContext,useState } from "react";
 import { useRouter } from "next/navigation";
 import AuthContext from "../../../../../context/AuthContext"
-import { useAuthUser } from "../../../../../hooks/UseAuthUser";
+import { useAuthUser } from "../../../../../hooks/useAuthUser";
  
 import "./style.css";
 import { enc } from "@/scripts/Cifrado/Cifrar";
