@@ -132,6 +132,7 @@ function Gtickets() {
         }
         const data = await response.json();
         const dataEnc = data.map((rep) => desc(rep));
+        console.log(dataEnc)
         setTick(dataEnc);
       } catch (error) {
         console.log("Error fetching data: ", error);
